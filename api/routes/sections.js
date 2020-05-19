@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const sections = require("../controllers/Section.controller");
+const sections = require("../controllers/section.controller");
 
 // ?@route GET api/sections
 // ?@desc Get a Section

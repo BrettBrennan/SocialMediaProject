@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const comments = require("../controllers/Comment.controller");
+const comments = require("../controllers/comment.controller");
 
 // ?@route GET api/comments
 // ?@desc Get a Comment
