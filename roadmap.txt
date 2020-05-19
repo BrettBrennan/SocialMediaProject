@@ -1,0 +1,21 @@
+/*
+    ! This is my road map for this Social Media Application.
+    * This is intended to show my thought process and my progress.
+    
+    ! Features
+TODO:   Basic authentication. Allow user registration and login. Hashed passwords and token based authentication. 
+TODO:   Users can make, edit, delete and view posts (CRUD).
+TODO:   Users can rate and comment (CRUD on their own comments) on existing posts.
+TODO:   Users can find and add other users as friends, as well as block, message and report users.
+TODO:   Posts are contained by "Sections" which are similar to forum categories or subreddits.
+TODO:   Users can customize their profiles as well as view other's profiles.
+TODO:   Users will have a feed that will display popular posts, posts from people/sections they follow and any other important info.
+
+
+    ? Project Structure 
+    ? root
+    ? Server (API) - Entry Point (server.js) -> Database Config / Controllers (Users, Posts, Sections, Comments) / Models (Users, Posts, Sections, Comments) / Routes (Auth, Posts, Users, Sections, Profiles)
+    ? Client - 
+    ?
+
+*/
