@@ -26,3 +26,5 @@ router.put("/:id", comments.update);
 // ?@access Private
 
 router.delete("/:id", comments.delete);
+
+module.exports = router;

@@ -15,6 +15,9 @@ exports.findAll = async (req, res) => {};
 // Find a single Post with an id
 exports.findOne = async (req, res) => {};
 
+// TODO: Figure out of we want findOne, findAll or new find.
+exports.find = async (req, res) => {};
+
 // Update a Post by the id in the request
 exports.update = async (req, res) => {};
 

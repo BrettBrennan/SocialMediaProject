@@ -1,18 +1,27 @@
 const express = require("express");
+const db = require("../models");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const Users = db.users;
 
 //const User = require("../models/User");
 // @route   GET api/auth
 // @desc    Get logged in user
 // @access  Private
 router.get("/", auth, async (req, res) => {
+    console.log("Auth Route after auth");
     try {
-        const user = await User.findById(req.user.id).select("-password");
+        const { email } = req.body;
+        const user = await Users.findOne({
+            attributes: ["id", "name", "email", "createdAt", "updatedAt"],
+            where: { email: email },
+        });
+
+        console.log(user);
         res.json(user);
     } catch (err) {
         console.error(err.message);
@@ -40,7 +49,7 @@ router.post(
         try {
             // TODO: Add user finding in MySQL.
 
-            let user = await User.findOne({ email });
+            let user = await Users.findOne({ email });
 
             if (!user) {
                 return res.status(400).json({ msg: "Invalid Credentials" });

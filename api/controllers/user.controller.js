@@ -74,7 +74,7 @@ exports.findOne = async (req, res) => {
             console.log(userFind.name);
             res.status(200).json(userFind);
         } else {
-            return res.status(400).send("No user exists with this email/id");
+            return res.status(400).send("No user exists with this id");
         }
     } catch (err) {
         console.error(err.message);
@@ -82,6 +82,29 @@ exports.findOne = async (req, res) => {
     }
 };
 
+// Find a single User with an email
+exports.findOneByEmail = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { email } = req.body;
+        let userFind = await Users.findOne({ where: { email: email } });
+
+        if (userFind) {
+            //res.status(200).send(userFind.id);
+            console.log(userFind.name);
+            res.status(200).json(userFind);
+        } else {
+            return res.status(400).send("No user exists with this email");
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 // Update a User by the id in the request
 exports.update = (req, res) => {};
 

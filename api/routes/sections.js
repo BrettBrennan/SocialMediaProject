@@ -26,3 +26,5 @@ router.put("/:id", sections.update);
 // ?@access Private
 
 router.delete("/:id", sections.delete);
+
+module.exports = router;

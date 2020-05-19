@@ -25,6 +25,15 @@ module.exports = (sequelize, Sequelize) => {
                 },
             },
         },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Please enter a password.",
+                },
+            },
+        },
     });
 
     return User;

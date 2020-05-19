@@ -26,3 +26,5 @@ router.put("/:id", posts.update);
 // ?@access Private
 
 router.delete("/:id", posts.delete);
+
+module.exports = router;
