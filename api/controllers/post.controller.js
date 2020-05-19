@@ -7,7 +7,25 @@ const Op = db.Sequelize.Op;
 const { validationResult } = require("express-validator");
 
 // Create and Save a new Post
-exports.create = async (req, res) => {};
+exports.create = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        const { title, body } = req.body;
+
+        // TODO: Add a return link for newly created section!
+        res.status(200).json({
+            Title: title,
+            Body: body,
+            Poster: req.user.id,
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Retrieve all Post from the database.
 exports.findAll = async (req, res) => {};

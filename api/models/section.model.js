@@ -7,7 +7,11 @@ module.exports = (sequelize, Sequelize) => {
             unique: true,
             autoIncrement: true,
         },
-        name: {
+        creator: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+        title: {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
@@ -16,12 +20,12 @@ module.exports = (sequelize, Sequelize) => {
                 },
             },
         },
-        email: {
+        description: {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Please enter an email.",
+                    msg: "Please enter a description.",
                 },
             },
         },
