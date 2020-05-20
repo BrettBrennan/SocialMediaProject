@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 // ?@desc Get a Section
 // ?@access Public or Private depending on Sectioner's preference.abs
 
-router.get("/", sections.find);
+router.get("/:id", sections.findOne);
 
 // ?@route POST api/sections
 // ?@desc Create a Section

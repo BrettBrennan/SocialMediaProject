@@ -13,15 +13,12 @@ const Users = db.users;
 // @desc    Get logged in user
 // @access  Private
 router.get("/", auth, async (req, res) => {
-    console.log("Auth Route after auth");
     try {
         const { email } = req.body;
         const user = await Users.findOne({
             attributes: ["id", "name", "email", "createdAt", "updatedAt"],
             where: { email: email },
         });
-
-        console.log(user);
         res.json(user);
     } catch (err) {
         console.error(err.message);
