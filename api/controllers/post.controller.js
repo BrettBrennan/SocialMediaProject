@@ -1,9 +1,6 @@
 const db = require("../models");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const Sections = db.sections;
 const Posts = db.posts;
-const config = require("config");
-const Op = db.Sequelize.Op;
 const { validationResult } = require("express-validator");
 
 // Create and Save a new Post
@@ -13,14 +10,29 @@ exports.create = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const { title, body } = req.body;
+        const { title, body, section } = req.body;
 
-        // TODO: Add a return link for newly created section!
-        res.status(200).json({
-            Title: title,
-            Body: body,
-            Poster: req.user.id,
-        });
+        //? Find the section and verify it exists.
+
+        let secFind = await Sections.findOne({ where: { id: section } });
+
+        if (secFind) {
+            //TODO: Verify user can post to this section.
+            //? Publish post to said section.
+
+            const post = {
+                creator: req.user.id,
+                title: title,
+                body: body,
+                section_id: section,
+            };
+            const createdPost = await Posts.create(post);
+
+            // TODO: Add a return link for newly created section!
+            return res.status(200).json(createdPost);
+        } else {
+            return res.status(400).json({ msg: "Section doesn't exist" });
+        }
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
@@ -31,16 +43,76 @@ exports.create = async (req, res) => {
 exports.findAll = async (req, res) => {};
 
 // Find a single Post with an id
-exports.findOne = async (req, res) => {};
+exports.findOne = async (req, res) => {
+    try {
+        let postFind = await Posts.findOne({ where: { id: req.params.id } });
 
-// TODO: Figure out of we want findOne, findAll or new find.
-exports.find = async (req, res) => {};
+        if (!postFind) {
+            return res.status(404).json({ msg: "Post doesn't exist" });
+        }
+
+        return res.status(200).send(postFind);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Update a Post by the id in the request
-exports.update = async (req, res) => {};
+exports.update = async (req, res) => {
+    try {
+        let postFind = await Posts.findOne({ where: { id: req.params.id } });
+
+        if (!postFind) {
+            return res.status(404).json({ msg: "Post doesn't exist" });
+        }
+
+        const { creator } = postFind;
+        if (creator === req.user.id) {
+            const num = await Posts.update(req.body, {
+                where: { id: req.params.id },
+            });
+            if (num == 1) {
+                //Success!
+                res.status(200).send("Post Updated");
+            } else {
+                res.status(500).send("Server Error");
+            }
+        } else {
+            res.status(400).send(
+                "You do not have the permissions to edit this post."
+            );
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Delete a Post with the specified id in the request
-exports.delete = async (req, res) => {};
+exports.delete = async (req, res) => {
+    try {
+        let postFind = await Posts.findOne({ where: { id: req.params.id } });
+
+        if (!postFind) {
+            return res.status(404).json({ msg: "Post doesn't exist" });
+        }
+        const { creator } = postFind;
+        if (creator === req.user.id) {
+            await Posts.destroy({
+                where: { id: req.params.id, creator: creator },
+            });
+            res.status(200).send("Post Deleted");
+        } else {
+            res.status(400).send(
+                "You do not have the permissions to delete this post."
+            );
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Delete all Post from the database.
 exports.deleteAll = async (req, res) => {};

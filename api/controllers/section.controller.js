@@ -62,7 +62,6 @@ exports.update = async (req, res) => {
         }
 
         const { creator } = secFind;
-        const { title, desc } = req.body;
         if (creator === req.user.id) {
             const num = await Sections.update(req.body, {
                 where: { id: req.params.id },
@@ -107,8 +106,6 @@ exports.delete = async (req, res) => {
                 "You do not have the permissions to delete this section."
             );
         }
-
-        // TODO: Add a return link for newly created section!
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");

@@ -46,7 +46,7 @@ router.post(
         try {
             // TODO: Add user finding in MySQL.
 
-            let user = await Users.findOne({ email });
+            let user = await Users.findOne({ where: { email: email } });
 
             if (!user) {
                 return res.status(400).json({ msg: "Invalid Credentials" });

@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("user", {
         id: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4, // Or Sequelize.UUIDV1
             allowNull: false,
             primaryKey: true,
             unique: true,
-            autoIncrement: true,
         },
         name: {
             type: Sequelize.STRING,
