@@ -40,7 +40,38 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Post from the database.
-exports.findAll = async (req, res) => {};
+exports.findAll = async (req, res) => {
+    try {
+        let postFind = await Posts.findAll();
+
+        if (!postFind) {
+            return res.status(404).json({ msg: "No posts." });
+        }
+
+        return res.status(200).send(postFind);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
+// Retrieve all Posts from a certain Section from the database.
+exports.findAllBySec = async (req, res) => {
+    try {
+        const { id } = req.params.id;
+        let postFind = await Posts.findAll({
+            where: { section_id: req.params.id },
+        });
+
+        if (!postFind) {
+            return res.status(404).json({ msg: "No posts." });
+        }
+
+        return res.status(200).send(postFind);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Find a single Post with an id
 exports.findOne = async (req, res) => {

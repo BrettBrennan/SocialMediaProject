@@ -6,15 +6,9 @@ const auth = require("../middleware/auth");
 
 // ?@route GET api/posts
 // ?@desc Get a post
-// ?@access Public or Private depending on poster's preference
+// ?@access Public or Private depending on poster's preference.abs
 
-router.get("/", posts.findAll);
-
-// ?@route GET api/posts/section_id
-// ?@desc Get a post by section ID
-// ?@access Public or Private depending on poster's preference
-
-router.get("/:id", posts.findAllBySec);
+router.get("/:id", posts.findOne);
 
 // ?@route POST api/posts
 // ?@desc Create a post
@@ -32,10 +26,16 @@ router.post(
     posts.create
 );
 
-// ?@route DELETE api/posts
-// ?@desc Delete all posts
+// ?@route PUT api/posts
+// ?@desc Edit a post
 // ?@access Private
 
-router.delete("/:id", auth, posts.deleteAll);
+router.put("/:id", auth, posts.update);
+
+// ?@route DELETE api/posts
+// ?@desc Delete a post
+// ?@access Private
+
+router.delete("/:id", auth, posts.delete);
 
 module.exports = router;

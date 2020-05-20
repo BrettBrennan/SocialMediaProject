@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Users = db.users;
 const config = require("config");
-const Op = db.Sequelize.Op;
 const { validationResult } = require("express-validator");
 // Create and Save a new User
 exports.create = async (req, res) => {
@@ -56,7 +55,27 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all User from the database.
-exports.findAll = (req, res) => {};
+exports.findAll = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        let userFind = await Users.findAll({
+            attributes: ["id", "name", "email", "createdAt", "updatedAt"],
+        });
+
+        if (userFind) {
+            res.status(200).send(userFind);
+        } else {
+            return res.status(400).send("No users yet");
+        }
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Find a single User with an id
 exports.findOne = async (req, res) => {

@@ -34,7 +34,20 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Section from the database.
-exports.findAll = async (req, res) => {};
+exports.findAll = async (req, res) => {
+    try {
+        let secFind = await Sections.findAll();
+
+        if (!secFind) {
+            return res.status(404).json({ msg: "No sections yet." });
+        }
+
+        return res.status(200).send(secFind);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 // Find a single Section with an id
 exports.findOne = async (req, res) => {
