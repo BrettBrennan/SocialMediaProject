@@ -13,10 +13,10 @@ const Users = db.users;
 // @access  Private
 router.get('/', auth, async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { id } = req.user;
 		const user = await Users.findOne({
 			attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
-			where: { email: email },
+			where: { id: id },
 		});
 		res.json(user);
 	} catch (err) {

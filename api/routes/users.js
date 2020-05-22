@@ -13,17 +13,17 @@ router.get('/', users.findAll);
 // @desc    Register a user
 // @access  Public
 
-// router.post(
-//     "/",
-//     [
-//         check("name", "Please add a name").not().isEmpty(),
-//         check("email", "Please include a valid email").isEmail(),
-//         check(
-//             "password",
-//             "Please enter a password with 6 or more characters"
-//         ).isLength({ min: 6 }),
-//     ],
-//     users.create
-// );
+router.post(
+	'/',
+	[
+		check('name', 'Please add a name').not().isEmpty(),
+		check('email', 'Please include a valid email').isEmail(),
+		check(
+			'password',
+			'Please enter a password with 6 or more characters'
+		).isLength({ min: 6 }),
+	],
+	users.create
+);
 
 module.exports = router;
