@@ -1,40 +1,41 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { check } = require("express-validator");
-const sections = require("../controllers/section.controller");
-const auth = require("../middleware/auth");
-// ?@route GET api/sections
+const { check } = require('express-validator');
+const sections = require('../controllers/section.controller');
+const auth = require('../middleware/auth');
+
+// ?@route GET api/section
 // ?@desc Get a Section
 // ?@access Public or Private depending on Sectioner's preference.abs
 
-router.get("/:id", sections.findOne);
+router.get('/:id', sections.findOne);
 
-// ?@route POST api/sections
+// ?@route POST api/section
 // ?@desc Create a Section
 // ?@access Private
 
 router.post(
-    "/",
-    [
-        auth,
-        [
-            check("title", "Please add a title").not().isEmpty(),
-            check("desc", "Please add a description").not().isEmpty(),
-        ],
-    ],
-    sections.create
+	'/',
+	[
+		auth,
+		[
+			check('title', 'Please add a title').not().isEmpty(),
+			check('desc', 'Please add a description').not().isEmpty(),
+		],
+	],
+	sections.create
 );
 
-// ?@route PUT api/sections
+// ?@route PUT api/section
 // ?@desc Edit a Section
 // ?@access Private
 
-router.put("/:id", auth, sections.update);
+router.put('/:id', auth, sections.update);
 
-// ?@route DELETE api/sections
+// ?@route DELETE api/section
 // ?@desc Delete a Section
 // ?@access Private
 
-router.delete("/:id", auth, sections.delete);
+router.delete('/:id', auth, sections.delete);
 
 module.exports = router;

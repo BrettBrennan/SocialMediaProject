@@ -1,13 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { check } = require("express-validator");
-const users = require("../controllers/user.controller");
-const auth = require("../middleware/auth");
+const { check } = require('express-validator');
+const users = require('../controllers/user.controller');
+const auth = require('../middleware/auth');
 // @route GET api/users
 // @desc Get a user
 // @access Public
 
-router.get("/", users.findOne);
+router.get('/', users.findOne);
 
 // @route   POST api/users
 // @desc    Register a user
