@@ -48,6 +48,6 @@ Navbar.propTypes = {
 };
 Navbar.defaultProps = {
 	title: 'Social Media App',
-	icon: 'fas fa-id-card-alt',
+	icon: 'fas fa-users',
 };
 export default Navbar;

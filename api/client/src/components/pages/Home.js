@@ -7,9 +7,16 @@ const Home = () => {
 		// eslint-disable-next-line
 	}, []);
 	return (
-		<div className='grid-2'>
-			<div>Hello</div>
-			<div>World!</div>
+		<div className='grid-3'>
+			<div>
+				<h2>Featured Sections</h2>
+			</div>
+			<div>
+				<h2>Feed</h2>
+			</div>
+			<div>
+				<h2>Friends</h2>
+			</div>
 		</div>
 	);
 };
