@@ -6,12 +6,14 @@ import Alerts from './components/layout/Alerts';
 
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import Sections from './components/pages/Sections';
 
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 
 import AuthState from './contexts/auth/AuthState';
 import AlertState from './contexts/alert/AlertState';
+import SectionState from './contexts/sections/SectionState';
 
 import AuthToken from './utils/AuthToken';
 
@@ -24,26 +26,44 @@ if (localStorage.token) {
 function App() {
 	return (
 		<AuthState>
-			<AlertState>
-				<Router>
-					<Fragment>
-						<Navbar />
-						<div className='container'>
-							<Alerts />
-							<Switch>
-								<PrivateRoute exact path='/' component={Home} />
-								<Route exact path='/about' component={About} />
-								<Route
-									exact
-									path='/register'
-									component={Register}
-								/>
-								<Route exact path='/login' component={Login} />
-							</Switch>
-						</div>
-					</Fragment>
-				</Router>
-			</AlertState>
+			<SectionState>
+				<AlertState>
+					<Router>
+						<Fragment>
+							<Navbar />
+							<div className='container'>
+								<Alerts />
+								<Switch>
+									<PrivateRoute
+										exact
+										path='/'
+										component={Home}
+									/>
+									<Route
+										exact
+										path='/about'
+										component={About}
+									/>
+									<Route
+										path='/sections'
+										component={Sections}
+									/>
+									<Route
+										exact
+										path='/register'
+										component={Register}
+									/>
+									<Route
+										exact
+										path='/login'
+										component={Login}
+									/>
+								</Switch>
+							</div>
+						</Fragment>
+					</Router>
+				</AlertState>
+			</SectionState>
 		</AuthState>
 	);
 }

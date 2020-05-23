@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
+import Sections from '../sections/Sections';
 const Home = () => {
 	const authContext = useContext(AuthContext);
 	useEffect(() => {
@@ -7,10 +8,7 @@ const Home = () => {
 		// eslint-disable-next-line
 	}, []);
 	return (
-		<div className='grid-3'>
-			<div>
-				<h2>Featured Sections</h2>
-			</div>
+		<div className='grid-2'>
 			<div>
 				<h2>Feed</h2>
 			</div>
