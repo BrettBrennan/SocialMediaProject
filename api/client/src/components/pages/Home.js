@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
-import Sections from '../sections/Sections';
 const Home = () => {
 	const authContext = useContext(AuthContext);
 	useEffect(() => {

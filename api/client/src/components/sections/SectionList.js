@@ -2,7 +2,7 @@ import React, { useEffect, useContext, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import SectionContext from '../../contexts/sections/sectionContext';
 import Spinner from '../layout/Spinner';
-const Sections = () => {
+const SectionsList = () => {
 	const sectionContext = useContext(SectionContext);
 	const {
 		sections,
@@ -51,4 +51,4 @@ const Sections = () => {
 	);
 };
 
-export default Sections;
+export default SectionsList;

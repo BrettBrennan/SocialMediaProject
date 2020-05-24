@@ -445,7 +445,68 @@ table th {
 	transition: opacity 500ms ease-in;
 }
 
-.
+.Section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.poster-name {
+	font-size: 16px !important;
+	color: #666 !important;
+}
+.poster-name a {
+	color: #666 !important;
+}
+.Post-List-Item-Expanded {
+	display: flex;
+	flex-direction: row;
+	min-height: 250px;
+}
+.Post-List-Item {
+	display: flex;
+	flex-direction: row;
+}
+.Post-List-Item h2 {
+	text-align: left;
+}
+.Post-List-Item h2 i {
+	position: relative;
+	left: -32px;
+	transition: all 0.3s ease;
+}
+.Post-List-Item-Icon {
+	transition: all 0.3s ease;
+	color: var(--primary-color);
+}
+.Post-List-Item-Icon-Active {
+	transition: all 0.3s ease;
+	transform: rotate(90deg);
+}
+.Post-List {
+	margin-top: 50px;
+	text-align: left !important;
+	width: 90%;
+}
+.Post-List li h3 {
+	text-align: left !important;
+}
+.Post-List li:nth-child(even) {
+	/* background-color: rgb(240, 240, 240); */
+}
+.Post-List li:hover {
+	border-left: 4px solid rgb(218, 59, 59);
+	border-right: 4px solid rgb(218, 59, 59);
+}
+.Post-List li {
+	margin: 5px;
+	padding: 5px;
+	border-bottom: 2px solid #eee;
+	text-align: left;
+	box-shadow: 0px 3px 5px rgba(55, 55, 55, 0.1);
+	background-color: transparent;
+	transition: all 0.2s ease;
+}
 
 /* Mobile Styles */
 @media (max-width: 700px) {

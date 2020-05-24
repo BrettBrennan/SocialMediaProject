@@ -85,12 +85,9 @@ exports.findOne = async (req, res) => {
 	}
 
 	try {
-		const { id } = req.body;
-		let userFind = await Users.findOne({ where: { id: id } });
+		let userFind = await Users.findOne({ where: { id: req.params.id } });
 
 		if (userFind) {
-			//res.status(200).send(userFind.id);
-			console.log(userFind.name);
 			res.status(200).json(userFind);
 		} else {
 			return res.status(400).send('No user exists with this id');

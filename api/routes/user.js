@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 // @desc Get a user
 // @access Public
 
-router.get('/', users.findOne);
+router.get('/:id', users.findOne);
 
 // @route   POST api/users
 // @desc    Register a user
