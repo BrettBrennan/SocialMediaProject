@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 		},
 		msg: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
 			allowNull: false,
 			validate: {
 				notNull: {

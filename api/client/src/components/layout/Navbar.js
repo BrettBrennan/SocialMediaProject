@@ -13,12 +13,6 @@ const Navbar = ({ title, icon }) => {
 		<Fragment>
 			<li>Hello, {user && user.name}</li>
 			<li>
-				<a href='/'>Home</a>
-			</li>
-			<li>
-				<a href='/sections'>Sections</a>
-			</li>
-			<li>
 				<a href='/'>Profile</a>
 			</li>
 			<li>
@@ -46,7 +40,15 @@ const Navbar = ({ title, icon }) => {
 			<h1>
 				<i className={icon} /> {title}
 			</h1>
-			<ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+			<ul>
+				<li>
+					<a href='/'>Home</a>
+				</li>
+				<li>
+					<a href='/sections'>Sections</a>
+				</li>
+				{isAuthenticated ? authLinks : guestLinks}
+			</ul>
 		</div>
 	);
 };

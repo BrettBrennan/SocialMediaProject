@@ -41,6 +41,26 @@ img {
 }
 
 /* Utilities */
+.font-weight-bold {
+	font-weight: bold !important;
+}
+@keyframes spinnerAnim {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.spinner {
+	width: 50px;
+	margin: auto;
+	display: block;
+	transition: all 1s ease;
+	animation-name: spinnerAnim;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
 .container {
 	max-width: 1100px;
 	margin: auto;
@@ -467,10 +487,11 @@ table th {
 	display: flex;
 	flex-direction: row;
 }
-.Post-List-Item h2 {
+.Post-List-Item > h2 {
 	text-align: left;
 }
-.Post-List-Item h2 i {
+.Post-List-Item i,
+.Post-List-Item-Expanded i {
 	position: relative;
 	left: -32px;
 	transition: all 0.3s ease;
@@ -488,17 +509,10 @@ table th {
 	text-align: left !important;
 	width: 90%;
 }
-.Post-List li h3 {
+.Post-List > li > h3 {
 	text-align: left !important;
 }
-.Post-List li:nth-child(even) {
-	/* background-color: rgb(240, 240, 240); */
-}
-.Post-List li:hover {
-	border-left: 4px solid rgb(218, 59, 59);
-	border-right: 4px solid rgb(218, 59, 59);
-}
-.Post-List li {
+.Post-List > li {
 	margin: 5px;
 	padding: 5px;
 	border-bottom: 2px solid #eee;
@@ -507,7 +521,24 @@ table th {
 	background-color: transparent;
 	transition: all 0.2s ease;
 }
-
+.Post-Body {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	justify-items: flex-start;
+	align-items: flex-start;
+	flex-grow: 2;
+}
+.Post-Comments-List {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	margin-top: 50px;
+}
+.Post-Comment {
+	width: 100%;
+	border-top: 2px solid #ccc;
+}
 /* Mobile Styles */
 @media (max-width: 700px) {
 	.hide-sm {

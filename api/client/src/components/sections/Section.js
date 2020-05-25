@@ -4,6 +4,7 @@ import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
 import SectionContext from '../../contexts/sections/sectionContext';
 import PostContext from '../../contexts/posts/postContext';
+
 import Post from '../posts/Post';
 import Spinner from '../layout/Spinner';
 
@@ -35,6 +36,7 @@ const Section = ({ match }) => {
 		body: '',
 	});
 	const { title, body } = post;
+
 	useEffect(() => {
 		authContext.loadUser();
 		clearSection();

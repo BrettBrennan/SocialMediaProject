@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 // ?@desc Get a Comment
 // ?@access Public or Private depending on Commenter's preference.
 
-router.get('/', comments.findAll);
+router.get('/:post_id', comments.findAllByPost);
 
 // ?@route POST api/comments
 // ?@desc Create a Comment

@@ -15,6 +15,7 @@ import AuthState from './contexts/auth/AuthState';
 import AlertState from './contexts/alert/AlertState';
 import SectionState from './contexts/sections/SectionState';
 import PostState from './contexts/posts/PostState';
+import CommentState from './contexts/comments/CommentState';
 import UserState from './contexts/users/UserState';
 
 import AuthToken from './utils/AuthToken';
@@ -30,50 +31,54 @@ function App() {
 		<AuthState>
 			<SectionState>
 				<PostState>
-					<UserState>
-						<AlertState>
-							<Router>
-								<Fragment>
-									<Navbar />
-									<div className='container'>
-										<Alerts />
-										<Switch>
-											<PrivateRoute
-												exact
-												path='/'
-												component={Home}
-											/>
-											<Route
-												exact
-												path='/about'
-												component={About}
-											/>
-											<Route
-												path='/sections/s/:secID'
-												render={({ match }) => (
-													<Section match={match} />
-												)}
-											/>
-											<Route
-												path='/sections'
-												component={Sections}
-											/>
-											<Route
-												exact
-												path='/register'
-												component={Register}
-											/>
-											<Route
-												exact
-												path='/login'
-												component={Login}
-											/>
-										</Switch>
-									</div>
-								</Fragment>
-							</Router>
-						</AlertState>
-					</UserState>
+					<CommentState>
+						<UserState>
+							<AlertState>
+								<Router>
+									<Fragment>
+										<Navbar />
+										<div className='container'>
+											<Alerts />
+											<Switch>
+												<PrivateRoute
+													exact
+													path='/'
+													component={Home}
+												/>
+												<Route
+													exact
+													path='/about'
+													component={About}
+												/>
+												<Route
+													path='/sections/s/:secID'
+													render={({ match }) => (
+														<Section
+															match={match}
+														/>
+													)}
+												/>
+												<Route
+													path='/sections'
+													component={Sections}
+												/>
+												<Route
+													exact
+													path='/register'
+													component={Register}
+												/>
+												<Route
+													exact
+													path='/login'
+													component={Login}
+												/>
+											</Switch>
+										</div>
+									</Fragment>
+								</Router>
+							</AlertState>
+						</UserState>
+					</CommentState>
 				</PostState>
 			</SectionState>
 		</AuthState>

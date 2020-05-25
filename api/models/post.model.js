@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 		},
 		title: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
 			allowNull: false,
 			validate: {
 				notNull: {
@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
 			},
 		},
 		body: {
-			type: Sequelize.STRING,
+			type: Sequelize.TEXT,
 			allowNull: false,
 			validate: {
 				notNull: {
