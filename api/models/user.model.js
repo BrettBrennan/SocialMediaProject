@@ -34,6 +34,18 @@ module.exports = (sequelize, Sequelize) => {
 				},
 			},
 		},
+		profile_pic: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+		website: {
+			type: Sequelize.STRING,
+			allowNull: true,
+		},
+		bio: {
+			type: Sequelize.TEXT,
+			allowNull: true,
+		},
 	});
 
 	return User;

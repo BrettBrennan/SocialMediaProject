@@ -63,7 +63,16 @@ exports.findAll = async (req, res) => {
 
 	try {
 		let userFind = await Users.findAll({
-			attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+			attributes: [
+				'id',
+				'name',
+				'email',
+				'profile_pic',
+				'website',
+				'bio',
+				'createdAt',
+				'updatedAt',
+			],
 		});
 
 		if (userFind) {
@@ -85,7 +94,19 @@ exports.findOne = async (req, res) => {
 	}
 
 	try {
-		let userFind = await Users.findOne({ where: { id: req.params.id } });
+		let userFind = await Users.findOne({
+			attributes: [
+				'id',
+				'name',
+				'email',
+				'profile_pic',
+				'website',
+				'bio',
+				'createdAt',
+				'updatedAt',
+			],
+			where: { id: req.params.id },
+		});
 
 		if (userFind) {
 			res.status(200).json(userFind);
@@ -107,7 +128,19 @@ exports.findOneByEmail = async (req, res) => {
 
 	try {
 		const { email } = req.body;
-		let userFind = await Users.findOne({ where: { email: email } });
+		let userFind = await Users.findOne({
+			attributes: [
+				'id',
+				'name',
+				'email',
+				'profile_pic',
+				'website',
+				'bio',
+				'createdAt',
+				'updatedAt',
+			],
+			where: { email: email },
+		});
 
 		if (userFind) {
 			//res.status(200).send(userFind.id);

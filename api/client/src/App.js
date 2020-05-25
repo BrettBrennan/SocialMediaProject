@@ -7,6 +7,8 @@ import Alerts from './components/layout/Alerts';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Sections from './components/pages/Sections';
+import Profile from './components/pages/Profile';
+//
 import Section from './components/sections/Section';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
@@ -40,7 +42,7 @@ function App() {
 										<div className='container'>
 											<Alerts />
 											<Switch>
-												<PrivateRoute
+												<Route
 													exact
 													path='/'
 													component={Home}
@@ -71,6 +73,11 @@ function App() {
 													exact
 													path='/login'
 													component={Login}
+												/>
+												<PrivateRoute
+													exact
+													path='/profile'
+													component={Profile}
 												/>
 											</Switch>
 										</div>

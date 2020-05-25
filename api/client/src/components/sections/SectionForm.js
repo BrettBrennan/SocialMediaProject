@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
-
+import SectionContext from '../../contexts/sections/sectionContext';
 const SectionForm = () => {
 	const authContext = useContext(AuthContext);
-
+	const sectionContext = useContext(SectionContext);
+	const { addSection, clearSection, setLoading, loading } = sectionContext;
 	useEffect(() => {
 		authContext.loadUser();
 		// eslint-disable-next-line
@@ -11,7 +12,7 @@ const SectionForm = () => {
 
 	const [section, setSection] = useState({
 		title: '',
-		description: '',
+		desc: '',
 	});
 	const { isAuthenticated } = authContext;
 
@@ -26,12 +27,19 @@ const SectionForm = () => {
 		);
 	}
 
-	const { title, description } = section;
+	const { title, desc } = section;
 	const onChange = (e) => {
 		setSection({ ...section, [e.target.name]: e.target.value });
 	};
 	const onSubmit = (e) => {
 		e.preventDefault();
+		setLoading();
+		clearSection();
+		addSection(section);
+		setSection({
+			title: '',
+			desc: '',
+		});
 	};
 
 	return (
@@ -49,11 +57,11 @@ const SectionForm = () => {
 					/>
 				</div>
 				<div className='form-group'>
-					<label htmlFor='description'>Section Description</label>
+					<label htmlFor='desc'>Section Description</label>
 					<input
 						type='text'
-						name='description'
-						value={description}
+						name='desc'
+						value={desc}
 						onChange={onChange}
 						required
 					/>

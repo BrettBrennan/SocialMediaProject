@@ -15,7 +15,16 @@ router.get('/', auth, async (req, res) => {
 	try {
 		const { id } = req.user;
 		const user = await Users.findOne({
-			attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+			attributes: [
+				'id',
+				'name',
+				'email',
+				'profile_pic',
+				'website',
+				'bio',
+				'createdAt',
+				'updatedAt',
+			],
 			where: { id: id },
 		});
 		res.json(user);

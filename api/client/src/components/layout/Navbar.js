@@ -11,9 +11,14 @@ const Navbar = ({ title, icon }) => {
 
 	const authLinks = (
 		<Fragment>
-			<li>Hello, {user && user.name}</li>
 			<li>
-				<a href='/'>Profile</a>
+				Hello, <Link to='/profile'>{user && user.name}</Link>
+			</li>
+			<li>
+				<a href='/'>Home</a>
+			</li>
+			<li>
+				<a href='/sections'>Sections</a>
 			</li>
 			<li>
 				<a onClick={onLogout} href='#!'>
@@ -26,6 +31,12 @@ const Navbar = ({ title, icon }) => {
 
 	const guestLinks = (
 		<Fragment>
+			<li>
+				<a href='/'>Home</a>
+			</li>
+			<li>
+				<a href='/sections'>Sections</a>
+			</li>
 			<li>
 				<Link to='/register'>Register</Link>
 			</li>
@@ -40,15 +51,7 @@ const Navbar = ({ title, icon }) => {
 			<h1>
 				<i className={icon} /> {title}
 			</h1>
-			<ul>
-				<li>
-					<a href='/'>Home</a>
-				</li>
-				<li>
-					<a href='/sections'>Sections</a>
-				</li>
-				{isAuthenticated ? authLinks : guestLinks}
-			</ul>
+			<ul>{isAuthenticated ? authLinks : guestLinks}</ul>
 		</div>
 	);
 };
