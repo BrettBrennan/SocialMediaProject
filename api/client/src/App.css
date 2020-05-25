@@ -317,7 +317,6 @@ img {
 input {
 	margin: 1.2rem 0;
 }
-
 .form-text {
 	display: block;
 	margin-top: 0.3rem;
@@ -335,6 +334,7 @@ textarea {
 	padding: 0.4rem;
 	font-size: 1.2rem;
 	border: 1px solid #ccc;
+	font-family: 'roboto', sans-serif;
 }
 
 input[type='submit'],
@@ -478,6 +478,13 @@ table th {
 .poster-name a {
 	color: #666 !important;
 }
+.poster-date {
+	text-align: left;
+	display: block;
+	font-size: 14px !important;
+	color: #666 !important;
+	font-weight: lighter;
+}
 .Post-List-Item-Expanded {
 	display: flex;
 	flex-direction: row;
@@ -487,8 +494,8 @@ table th {
 	display: flex;
 	flex-direction: row;
 }
-.Post-List-Item > h2 {
-	text-align: left;
+.Post-List-Item h2 {
+	text-align: left !important;
 }
 .Post-List-Item i,
 .Post-List-Item-Expanded i {
@@ -537,7 +544,8 @@ table th {
 }
 .Post-Comment {
 	width: 100%;
-	border-top: 2px solid #ccc;
+	border-bottom: 1px solid rgb(240, 240, 240);
+	margin: 5px 0 5px 0;
 }
 /* Mobile Styles */
 @media (max-width: 700px) {

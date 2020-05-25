@@ -50,7 +50,7 @@ const CommentState = (props) => {
 			},
 		};
 		try {
-			const res = await axios.comment('/api/comment', comment, config);
+			const res = await axios.post('/api/comment', comment, config);
 
 			dispatch({ type: ADD_COMMENT, payload: res.data });
 		} catch (err) {

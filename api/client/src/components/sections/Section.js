@@ -27,7 +27,7 @@ const Section = ({ match }) => {
 
 	const { isAuthenticated } = authContext;
 	const { getUser } = userContext;
-	const { posts, addPost, getPosts } = postContext;
+	const { posts, addPost, getPosts, clearPosts } = postContext;
 	const { secID } = match.params;
 
 	const [post, setPost] = useState({
@@ -64,6 +64,7 @@ const Section = ({ match }) => {
 			});
 
 			setCreatePost(false);
+			clearPosts();
 			getPosts(secID);
 		}
 	};

@@ -70,7 +70,6 @@ const PostState = (props) => {
 				'Content-Type': 'application/json',
 			},
 		};
-		console.log(post);
 		try {
 			const res = await axios.post('/api/post', post, config);
 
