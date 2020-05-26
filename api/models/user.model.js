@@ -46,6 +46,10 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.TEXT,
 			allowNull: true,
 		},
+		Subscribed_Sections: {
+			type: Sequelize.JSON,
+			allowNull: true,
+		},
 	});
 
 	return User;

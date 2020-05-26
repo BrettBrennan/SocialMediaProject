@@ -70,6 +70,7 @@ exports.findAll = async (req, res) => {
 				'profile_pic',
 				'website',
 				'bio',
+				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',
 			],
@@ -102,6 +103,7 @@ exports.findOne = async (req, res) => {
 				'profile_pic',
 				'website',
 				'bio',
+				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',
 			],
@@ -136,6 +138,7 @@ exports.findOneByEmail = async (req, res) => {
 				'profile_pic',
 				'website',
 				'bio',
+				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',
 			],
@@ -155,7 +158,32 @@ exports.findOneByEmail = async (req, res) => {
 	}
 };
 // Update a User by the id in the request
-exports.update = (req, res) => {};
+exports.update = async (req, res) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(400).json({ errors: errors.array() });
+	}
+
+	try {
+		let query = await Users.update(
+			{
+				Subscribed_Sections: req.body,
+			},
+			{
+				where: { id: req.params.id },
+			}
+		);
+
+		if (query) {
+			res.status(200).json(query);
+		} else {
+			return res.status(400).send("Couldn't Update User");
+		}
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+};
 
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => {};

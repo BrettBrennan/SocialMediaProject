@@ -13,6 +13,11 @@ router.get('/:id', users.findOne);
 // @desc    Register a user
 // @access  Public
 
+// @route   PUT api/users
+// @desc    Update a user
+// @access  Public
+router.put('/:id', users.update);
+
 // router.post(
 //     "/",
 //     [

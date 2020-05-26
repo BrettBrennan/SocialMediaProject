@@ -3,7 +3,13 @@ import userContext from './userContext';
 import userReducer from './userReducer';
 import axios from 'axios';
 
-import { GET_USER, GET_USERS, SET_LOADING, USER_ERROR } from '../types';
+import {
+	GET_USER,
+	GET_USERS,
+	SET_LOADING,
+	USER_ERROR,
+	UPDATE_USER,
+} from '../types';
 
 const UserState = (props) => {
 	const initialState = {
@@ -46,7 +52,30 @@ const UserState = (props) => {
 			});
 		}
 	};
-
+	//* Update User
+	const updateUser = async (id, Subscribed_Section) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const res = await axios.put(
+				`/api/user/${id}`,
+				Subscribed_Section,
+				config
+			);
+			dispatch({
+				type: UPDATE_USER,
+				payload: res.data,
+			});
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	return (
 		<userContext.Provider
 			value={{
@@ -57,6 +86,7 @@ const UserState = (props) => {
 				getUser,
 				getUsers,
 				setLoading,
+				updateUser,
 			}}
 		>
 			{props.children}

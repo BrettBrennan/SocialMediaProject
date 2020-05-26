@@ -25,8 +25,8 @@ const Section = ({ match }) => {
 		error,
 	} = sectionContext;
 
-	const { isAuthenticated } = authContext;
-	const { getUser } = userContext;
+	const { isAuthenticated, user } = authContext;
+	const { getUser, updateUser } = userContext;
 	const { posts, addPost, getPosts, clearPosts } = postContext;
 	const { secID } = match.params;
 
@@ -36,7 +36,7 @@ const Section = ({ match }) => {
 		body: '',
 	});
 	const { title, body } = post;
-
+	const [newSubs, setNewSubs] = useState(null);
 	useEffect(() => {
 		authContext.loadUser();
 		clearSection();
@@ -45,6 +45,7 @@ const Section = ({ match }) => {
 			getSection(secID);
 			getPosts(secID);
 		}
+		if (user !== null) setNewSubs(user.Subscribed_Sections);
 		// eslint-disable-next-line
 	}, []);
 
@@ -141,11 +142,48 @@ const Section = ({ match }) => {
 			return <h3>No posts yet.</h3>;
 		}
 	};
+	const isSubscribed = () => {
+		if (newSubs !== null) {
+			return newSubs[secID] === 1;
+		}
+		if (user !== null && user.Subscribed_Sections !== null)
+			setNewSubs(user.Subscribed_Sections);
 
+		if (newSubs === null) return false;
+		if (newSubs[secID] === 1) return true;
+		else return false;
+	};
+	const subscribe = () => {
+		if (user === null) return;
+		let newSub = {
+			[secID]: 0,
+		};
+		if (user !== null && newSubs === null) {
+			if (user.Subscribed_Sections !== null) {
+				newSub = user.Subscribed_Sections;
+				newSub[secID] = user.Subscribed_Sections === 1 ? 0 : 1;
+				setNewSubs(newSub);
+			}
+		} else if (newSubs !== null) {
+			newSub = newSubs;
+			newSub[secID] = newSubs[secID] === 1 ? 0 : 1;
+			setNewSubs(newSub);
+		}
+		updateUser(user.id, newSubs);
+	};
 	return (
 		<div className='Section'>
 			<h1>{section.title}</h1>
 			<h2>{section.description}</h2>
+			{isAuthenticated && isSubscribed() ? (
+				<button className='btn btn-danger' onClick={subscribe}>
+					UnSubcribe
+				</button>
+			) : (
+				<button className='btn btn-success' onClick={subscribe}>
+					Subcribe
+				</button>
+			)}
 			<ul className='Post-List'>{renderPosts()}</ul>
 			{isAuthenticated && (
 				<a href='#' onClick={() => setCreatePost(true)}>

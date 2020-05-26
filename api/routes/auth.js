@@ -22,6 +22,7 @@ router.get('/', auth, async (req, res) => {
 				'profile_pic',
 				'website',
 				'bio',
+				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',
 			],
