@@ -55,6 +55,22 @@ const SectionState = (props) => {
 			});
 		}
 	};
+	//* Get Sections
+	const getSectionsByUser = async (user_id) => {
+		try {
+			const res = await axios.get('/api/sections/' + user_id);
+
+			dispatch({
+				type: GET_SECTIONS,
+				payload: res.data,
+			});
+		} catch (err) {
+			dispatch({
+				type: SECTION_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	//* Clear Section
 	const clearSection = async () => {
 		dispatch({ type: CLEAR_SECTION, payload: null });
@@ -122,6 +138,7 @@ const SectionState = (props) => {
 				updateSection,
 				getSection,
 				getSections,
+				getSectionsByUser,
 				clearSection,
 				clearSections,
 				setLoading,

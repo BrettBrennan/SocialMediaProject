@@ -10,9 +10,12 @@ const Sections = () => {
 		<div className='grid-2'>
 			<div>
 				<h2>Featured Sections</h2>
-				<SectionsList />
+				<SectionsList ownedByUser={false} />
 			</div>
-			<SectionForm />
+			<div>
+				<SectionForm />
+				<SectionsList ownedByUser={true} />
+			</div>
 		</div>
 	);
 };

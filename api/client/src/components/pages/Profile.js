@@ -5,7 +5,7 @@ import Profile_Default from '../pages/profile_default.svg';
 const Profile = () => {
 	const authContext = useContext(AuthContext);
 	const { user, isAuthenticated } = authContext;
-	const [loading, setLoading] = useState(false);
+	const [loading] = useState(false);
 
 	useEffect(() => {
 		authContext.loadUser();
@@ -27,6 +27,7 @@ const Profile = () => {
 						? user.profile_pic
 						: Profile_Default
 				}
+				alt={user.name}
 				style={{ width: '250px' }}
 			/>
 			<h1>{user.name}</h1>

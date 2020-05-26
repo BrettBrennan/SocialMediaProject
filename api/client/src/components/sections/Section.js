@@ -175,23 +175,34 @@ const Section = ({ match }) => {
 		<div className='Section'>
 			<h1>{section.title}</h1>
 			<h2>{section.description}</h2>
-			{isAuthenticated && isSubscribed() ? (
-				<button className='btn btn-danger' onClick={subscribe}>
-					UnSubcribe
-				</button>
-			) : (
-				<button className='btn btn-success' onClick={subscribe}>
-					Subcribe
-				</button>
-			)}
-			<ul className='Post-List'>{renderPosts()}</ul>
 			{isAuthenticated && (
-				<a href='#' onClick={() => setCreatePost(true)}>
-					<h3>
-						<i className='fas fa-plus-square' /> Create New Post
-					</h3>
-				</a>
+				<button
+					className={
+						isSubscribed()
+							? 'Sub-btn subscribed'
+							: 'Sub-btn unsubscribed'
+					}
+					onClick={subscribe}
+				>
+					{isSubscribed() ? 'Unsubscribe' : 'Subscribe'}
+				</button>
 			)}
+			<br />
+			<ul className='Post-List'>
+				<li>
+					{' '}
+					{isAuthenticated && (
+						<button
+							className='btn btn-outline-primary'
+							href='#'
+							onClick={() => setCreatePost(true)}
+						>
+							<i className='fas fa-plus-square' /> Create New Post
+						</button>
+					)}
+				</li>
+				{renderPosts()}
+			</ul>
 		</div>
 	);
 };
