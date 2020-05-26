@@ -27,7 +27,14 @@ const Section = ({ match }) => {
 
 	const { isAuthenticated, user } = authContext;
 	const { getUser, updateUser } = userContext;
-	const { posts, addPost, getPosts, clearPosts } = postContext;
+	const {
+		posts,
+		addPost,
+		getPosts,
+		clearPosts,
+		updatePost,
+		deletePost,
+	} = postContext;
 	const { secID } = match.params;
 
 	const [post, setPost] = useState({
@@ -135,7 +142,12 @@ const Section = ({ match }) => {
 		if (posts !== null && posts.length !== 0) {
 			return posts.map((post) => (
 				<li>
-					<Post post={post} getUser={getUser} />
+					<Post
+						post={post}
+						getUser={getUser}
+						updatePost={updatePost}
+						deletePost={deletePost}
+					/>
 				</li>
 			));
 		} else {

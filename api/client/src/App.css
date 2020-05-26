@@ -510,6 +510,7 @@ table th {
 .Edit-Btn, .Delete-Btn {
 	display: inline-block;
 	font-size: 0.7em;
+	font-weight: normal;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
@@ -551,6 +552,12 @@ table th {
 	background-color: var(--success-color);
 	color: white;
 	border: 1px solid var(--success-color);
+}
+
+.poster-tag {
+	margin: 0px 5px 0px 5px;
+	font-size: 15px !important;
+	color: #999;
 }
 
 .poster-name {
@@ -619,6 +626,28 @@ table th {
 	box-shadow: 0px 3px 5px rgba(55, 55, 55, 0.1);
 	background-color: transparent;
 	transition: all 0.2s ease;
+}
+
+.Post-Title {
+	flex: 1 0 45%;
+}
+
+.Post-Buttons i {
+	position: inherit !important;
+}
+
+.Post-Buttons {
+	display: flex;
+	font-size: 1.3em;
+	flex: 2 0 50%;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.Post-Head {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
 }
 
 .Post-Body {

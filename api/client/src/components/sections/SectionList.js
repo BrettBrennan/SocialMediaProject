@@ -26,7 +26,7 @@ const SectionsList = ({ ownedByUser }) => {
 		setLoading,
 		loading,
 	} = sectionContext;
-	const { setAlert, alerts } = alertContext;
+	const { setAlert } = alertContext;
 	useEffect(() => {
 		setLoading();
 		clearSection();
@@ -73,7 +73,7 @@ const SectionsList = ({ ownedByUser }) => {
 	const deleteSec = (section_id) => {
 		if (window.confirm('Are you sure you want to delete this Section?')) {
 			deleteSection(section_id);
-			setAlert('Section Deleted!', 'success');
+			setAlert('Section Deleted!', 'danger');
 		}
 	};
 	const renderEditSection = () => {
