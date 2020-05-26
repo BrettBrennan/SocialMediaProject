@@ -407,7 +407,7 @@ input[type='submit'], button {
 	border-radius: 2px;
 }
 
-.form-container h1, h2, h3 {
+.form-container h1, .form-container h2, .form-container h3 {
 	text-align: center;
 }
 
@@ -501,6 +501,25 @@ table th {
 
 .Sub-btn:hover {
 	opacity: 0.8;
+}
+
+.Edit-Btn:hover, .Delete-Btn:hover {
+	color: var(--primary-color);
+}
+
+.Edit-Btn, .Delete-Btn {
+	display: inline-block;
+	font-size: 0.7em;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.Edit-Btn {
+	margin: 0px 5px 0px 25px;
+}
+
+.Delete-Btn {
+	margin: 0px 5px 0px 15px;
 }
 
 .btn-outline-primary {

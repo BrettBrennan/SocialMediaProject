@@ -98,7 +98,7 @@ const SectionState = (props) => {
 	//* Delete Section
 	const deleteSection = async (id) => {
 		try {
-			await axios.delete(`/api/sections/${id}`);
+			await axios.delete(`/api/section/${id}`);
 
 			dispatch({ type: DELETE_SECTION, payload: id });
 		} catch (err) {
