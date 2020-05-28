@@ -6,7 +6,9 @@ const SectionForm = () => {
 	const sectionContext = useContext(SectionContext);
 	const { addSection, clearSection, setLoading, loading } = sectionContext;
 	useEffect(() => {
-		authContext.loadUser();
+		let mounted = true;
+		if (mounted) authContext.loadUser();
+		return () => (mounted = false);
 		// eslint-disable-next-line
 	}, []);
 

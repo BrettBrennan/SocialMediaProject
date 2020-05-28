@@ -16,7 +16,7 @@ router.get('/:id', users.findOne);
 // @route   PUT api/users
 // @desc    Update a user
 // @access  Public
-router.put('/:id', users.update);
+router.put('/:id', auth, users.update);
 
 // router.post(
 //     "/",

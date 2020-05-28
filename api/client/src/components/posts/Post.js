@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, {
+	useContext,
+	useRef,
+	useState,
+	useEffect,
+	Fragment,
+} from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import CommentContext from '../../contexts/comments/commentContext';
 import AlertContext from '../../contexts/alert/alertContext';
@@ -6,6 +12,7 @@ import Comment from '../comments/Comment';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 const MAX_POST_LENGTH = 100;
 const Post = ({ post, getUser, updatePost, deletePost }) => {
+	const _isMounted = useRef(true);
 	const authContext = useContext(AuthContext);
 	const commentContext = useContext(CommentContext);
 	const alertContext = useContext(AlertContext);
@@ -23,7 +30,13 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 	//
 	const { title, body } = post;
 	const { isAuthenticated, user } = authContext;
-	const { getComments, addComment, clearComments } = commentContext;
+	const {
+		getComments,
+		addComment,
+		updateComment,
+		deleteComment,
+		clearComments,
+	} = commentContext;
 	const { setAlert } = alertContext;
 	//
 	const getUserName = (id) => {
@@ -40,15 +53,17 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 	};
 	//
 	useEffect(() => {
-		getUserName(post.creator);
-		getComments(post.id)
-			.then((response) => {
-				setPostComments(response);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
-
+		if (_isMounted.current) {
+			getUserName(post.creator);
+			getComments(post.id)
+				.then((response) => {
+					setPostComments(response);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+		}
+		return () => (_isMounted.current = false);
 		// eslint-disable-next-line
 	}, []);
 	//
@@ -79,6 +94,9 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 					console.error(err);
 				});
 		}
+	};
+	const refreshComments = (comment) => {
+		setPostComments(postComments.filter((com) => com.id !== comment.id));
 	};
 	const onChange = (e) => {
 		if (editing)
@@ -118,6 +136,9 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 		}
 	};
 	const getPostInfo = () => {
+		if (postComments === null) {
+			return null;
+		}
 		return (
 			<p>
 				0 likes | {postComments !== null ? postComments.length : 0}{' '}
@@ -266,9 +287,16 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 		);
 	};
 	const renderComments = () => {
+		if (postComments === null) return null;
 		return postComments.map((postComment) => (
-			<li>
-				<Comment comment={postComment} getUser={getUser} />
+			<li key={postComment.id}>
+				<Comment
+					comment={postComment}
+					getUser={getUser}
+					updateComment={updateComment}
+					deleteComment={deleteComment}
+					refreshComments={refreshComments}
+				/>
 			</li>
 		));
 	};

@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter as Route, Switch } from 'react-router-dom';
 
 import SectionForm from '../sections/SectionForm';
 
@@ -9,7 +8,7 @@ const Sections = () => {
 	return (
 		<div className='grid-2'>
 			<div>
-				<h2>Featured Sections</h2>
+				<div className='Head-Line'>Featured Sections</div>
 				<SectionsList ownedByUser={false} />
 			</div>
 			<div>

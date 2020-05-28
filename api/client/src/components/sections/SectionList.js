@@ -28,17 +28,17 @@ const SectionsList = ({ ownedByUser }) => {
 	} = sectionContext;
 	const { setAlert } = alertContext;
 	useEffect(() => {
-		setLoading();
-		clearSection();
-
+		//clearSection();
+		let mounted = true;
 		if (ownedByUser === true) {
-			if (user === null) return null;
 			if (user !== null) {
-				getSectionsByUser(user.id);
+				if (mounted) getSectionsByUser(user.id);
 			}
 		} else {
-			getSections();
+			if (mounted) getSections();
 		}
+
+		return () => (mounted = false);
 		// eslint-disable-next-line
 	}, []);
 	if (ownedByUser === true && user === null) return null;
@@ -112,34 +112,41 @@ const SectionsList = ({ ownedByUser }) => {
 		if (ownedByUser && isAuthenticated) {
 			if (section.creator === user.id) {
 				return (
-					<li>
+					<li className='Section-List-Item'>
 						{editing && section.id === editSection.id ? (
 							renderEditSection()
 						) : (
 							<Fragment>
-								<h2>
-									<Link
-										onClick={() => {
-											clearSection();
-											setLoading();
-										}}
-										to={'/sections/s/' + section.id}
-									>
-										{section.title}
-									</Link>
-									<span
-										className='Edit-Btn'
-										onClick={() => editSec(section)}
-									>
-										<i className='fas fa-edit' /> Edit
-									</span>
-									<span
-										className='Delete-Btn'
-										onClick={() => deleteSec(section.id)}
-									>
-										<i className='fas fa-trash' /> Delete
-									</span>
-								</h2>
+								{' '}
+								<div className='Post-Head'>
+									<div className='Post-Title'>
+										<h2>
+											<Link
+												to={'/sections/s/' + section.id}
+											>
+												{section.title}
+											</Link>
+										</h2>
+									</div>
+									<br />
+									<div className='Post-Buttons'>
+										<span
+											className='Edit-Btn'
+											onClick={() => editSec(section)}
+										>
+											<i className='fas fa-edit' /> Edit
+										</span>
+										<span
+											className='Delete-Btn'
+											onClick={() =>
+												deleteSec(section.id)
+											}
+										>
+											<i className='fas fa-trash' />{' '}
+											Delete
+										</span>
+									</div>
+								</div>
 								<p>{section.description}</p>
 							</Fragment>
 						)}
@@ -150,7 +157,7 @@ const SectionsList = ({ ownedByUser }) => {
 			}
 		}
 		return (
-			<li>
+			<li className='Section-List-Item' key={section.id}>
 				<h1>
 					<Link
 						onClick={() => {

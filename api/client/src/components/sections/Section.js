@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, {
+	useContext,
+	useState,
+	useEffect,
+	useRef,
+	Fragment,
+} from 'react';
 
 import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
@@ -9,6 +15,8 @@ import Post from '../posts/Post';
 import Spinner from '../layout/Spinner';
 
 const Section = ({ match }) => {
+	const _isMounted = useRef(true);
+
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const sectionContext = useContext(SectionContext);
@@ -45,14 +53,17 @@ const Section = ({ match }) => {
 	const { title, body } = post;
 	const [newSubs, setNewSubs] = useState(null);
 	useEffect(() => {
-		authContext.loadUser();
-		clearSection();
-		setLoading();
-		if (secID !== '') {
-			getSection(secID);
-			getPosts(secID);
+		if (_isMounted.current) {
+			authContext.loadUser();
+			clearSection();
+			setLoading();
+			if (secID !== '') {
+				getSection(secID);
+				getPosts(secID);
+			}
+			if (user !== null) setNewSubs(user.Subscribed_Sections);
 		}
-		if (user !== null) setNewSubs(user.Subscribed_Sections);
+		return () => (_isMounted.current = false);
 		// eslint-disable-next-line
 	}, []);
 
@@ -141,7 +152,7 @@ const Section = ({ match }) => {
 	const renderPosts = () => {
 		if (posts !== null && posts.length !== 0) {
 			return posts.map((post) => (
-				<li>
+				<li key={post.id}>
 					<Post
 						post={post}
 						getUser={getUser}
@@ -164,6 +175,8 @@ const Section = ({ match }) => {
 		if (newSubs === null) return false;
 		if (newSubs[secID] === 1) return true;
 		else return false;
+
+		return false;
 	};
 	const subscribe = () => {
 		if (user === null) return;
