@@ -7,12 +7,13 @@ import SectionsList from '../sections/SectionList';
 const Sections = () => {
 	return (
 		<div className='grid-2'>
-			<div>
+			<div className='col-md'>
 				<div className='Head-Line'>Featured Sections</div>
 				<SectionsList ownedByUser={false} />
 			</div>
-			<div>
+			<div className='col-md'>
 				<SectionForm />
+				<br />
 				<SectionsList ownedByUser={true} />
 			</div>
 		</div>

@@ -5,11 +5,10 @@ import Profile_Default from '../pages/profile_default.svg';
 const Profile = () => {
 	const authContext = useContext(AuthContext);
 	const { user, isAuthenticated } = authContext;
-	const [loading] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		authContext.loadUser();
-		//_getUser(user.id);
 		// eslint-disable-next-line
 	}, []);
 	if (loading) return <Spinner />;

@@ -24,11 +24,12 @@ const UserState = (props) => {
 	const getUser = async (id) => {
 		try {
 			const res = await axios.get('/api/user/' + id);
+			//return res.data;
+			dispatch({
+				type: GET_USER,
+				payload: res.data,
+			});
 			return res.data;
-			//dispatch({
-			//	type: GET_USER,
-			//	payload: res.data,
-			//});
 		} catch (err) {
 			dispatch({
 				type: USER_ERROR,
@@ -53,18 +54,14 @@ const UserState = (props) => {
 		}
 	};
 	//* Update User
-	const updateUser = async (id, Subscribed_Section) => {
+	const updateUser = async (id, Payload) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		};
 		try {
-			const res = await axios.put(
-				`/api/user/${id}`,
-				Subscribed_Section,
-				config
-			);
+			const res = await axios.put(`/api/user/${id}`, Payload, config);
 			dispatch({
 				type: UPDATE_USER,
 				payload: res.data,

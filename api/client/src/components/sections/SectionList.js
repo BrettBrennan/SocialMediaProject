@@ -112,7 +112,7 @@ const SectionsList = ({ ownedByUser }) => {
 		if (ownedByUser && isAuthenticated) {
 			if (section.creator === user.id) {
 				return (
-					<li className='Section-List-Item'>
+					<li key={section.id} className='Section-List-Item'>
 						{editing && section.id === editSection.id ? (
 							renderEditSection()
 						) : (
@@ -153,7 +153,7 @@ const SectionsList = ({ ownedByUser }) => {
 					</li>
 				);
 			} else {
-				return <Fragment></Fragment>;
+				return null;
 			}
 		}
 		return (
@@ -176,6 +176,9 @@ const SectionsList = ({ ownedByUser }) => {
 
 	return (
 		<Fragment>
+			{!loading && ownedByUser && isAuthenticated && (
+				<div className='Head-Line'>Your Sections</div>
+			)}
 			<ul>
 				{sections !== null && !loading ? (
 					sections.map((section) => renderSection(section))

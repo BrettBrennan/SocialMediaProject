@@ -67,10 +67,22 @@ img {
 }
 
 .container {
-	max-width: 1100px;
+	max-width: 1600px;
 	margin: auto;
 	overflow: hidden;
 	padding: 0 2rem;
+}
+
+.col-lg {
+	max-width: 900px;
+}
+
+.col-md {
+	max-width: 600px;
+}
+
+.col-sm {
+	max-width: 300px;
 }
 
 /* Text Styles*/
@@ -258,6 +270,59 @@ img {
 	margin-right: 0.2rem;
 }
 
+.btn-add:hover, .btn-remove:hover {
+	background-color: #28a745;
+	border: 1px solid transparent;
+	color: white;
+}
+
+.btn-add {
+	background-color: transparent;
+	border: 1px solid #28a745;
+	height: 2.2em;
+	margin: 5px;
+	color: #28a745;
+	font-weight: bold;
+	transition: all 0.2s ease;
+}
+
+.btn-remove {
+	background-color: transparent;
+	border: 1px solid #28a745;
+	height: 2.2em;
+	margin: 5px;
+	color: #28a745;
+	font-weight: bold;
+	transition: all 0.2s ease;
+}
+
+.btn-blok:hover {
+	background-color: rgb(202, 36, 36);
+	color: white;
+}
+
+.btn-blok {
+	border: 1px solid rgb(202, 36, 36);
+	color: rgb(202, 36, 36);
+	background-color: transparent;
+	height: 2.2em;
+	margin: 5px;
+	transition: all 0.2s ease;
+}
+
+.btn-pending:hover {
+	opacity: 1;
+}
+
+.btn-pending {
+	background-color: transparent;
+	border: 1px solid #28a745;
+	height: 2.2em;
+	margin: 5px;
+	color: #28a745;
+	font-weight: bold;
+}
+
 .badge {
 	font-size: 0.8rem;
 	padding: 0.2rem 0.7rem;
@@ -424,7 +489,8 @@ table th {
 /* Navbar */
 
 .navbar {
-	background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	/* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+	background-color: #764ba2;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -447,8 +513,8 @@ table th {
 	margin: 0 15px 0 15px;
 }
 
-.navbar ul li:hover {
-	background-color: rgba(255, 255, 255, 0.4);
+.navbar>ul>li>a:hover {
+	border-bottom: 2px solid white;
 }
 
 .navbar a {
@@ -479,6 +545,75 @@ table th {
 .item-exit-active {
 	opacity: 0;
 	transition: opacity 500ms ease-in;
+}
+
+@keyframes notifAnim {
+	0% {
+		border: 1px solid red;
+	}
+	50% {
+		border: 1px solid white;
+	}
+	100% {
+		border: 1px solid red;
+	}
+}
+
+.Notifications:hover {
+	color: white;
+}
+
+.Notifications {
+	width: 36px;
+	color: #f0f0f0;
+	text-align: center;
+	cursor: pointer;
+}
+
+.Notifications-Tray {
+	width: 300px;
+	position: absolute;
+	background-color: #764ba2;
+	display: flex;
+	justify-content: flex-start !important;
+}
+
+.Notifications-Item {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.Notifications-Accept {
+	color: rgb(69, 196, 69);
+	margin: 0px 10px 0px 10px;
+}
+
+.Notifications-Decline {
+	color: red;
+	margin: 0px 10px 0px 10px;
+}
+
+.Notifications-FR-Name {
+	flex: 2 0 50%;
+	text-align: left;
+	margin: 0px 10px 0px 10px;
+}
+
+.Notifications-Count {
+	position: relative;
+	display: inline-block;
+	top: -6px;
+	left: -6px;
+	width: 12px;
+	height: 12px;
+	font-size: 14px;
+	background-color: red;
+	border-radius: 50%;
+	animation-name: notifAnim;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
 }
 
 .Section {
@@ -579,25 +714,26 @@ table th {
 
 .poster-tag {
 	margin: 0px 5px 0px 5px;
-	font-size: 15px !important;
-	color: #999;
+	font-size: 14px !important;
+	color: #666;
+	font-weight: normal;
+}
+
+.poster-name:hover {
+	color: var(--primary-color);
 }
 
 .poster-name {
 	font-size: 16px !important;
-	color: #666 !important;
-}
-
-.poster-name a {
-	color: #666 !important;
+	color: #666;
+	transition: all 0.2s ease;
 }
 
 .poster-date {
-	text-align: left;
-	display: block;
+	margin-left: 5px;
 	font-size: 14px !important;
 	color: #666 !important;
-	font-weight: lighter;
+	font-weight: normal;
 }
 
 .Post-List-Item-Expanded {
@@ -655,6 +791,16 @@ table th {
 	flex: 1 0 45%;
 }
 
+.Post-Title-Link:hover {
+	opacity: 0.8;
+}
+
+.Post-Title-Link {
+	cursor: pointer;
+	transition: all 0.2s ease;
+	color: var(--primary-color);
+}
+
 .Post-Buttons i {
 	position: inherit !important;
 }
@@ -696,11 +842,22 @@ table th {
 	margin: 5px 0 5px 0;
 }
 
+.Profile-Bio {
+	width: 75%;
+	border-top: 1px solid #eee;
+	font-size: 1.2em;
+}
+
+.Profile-Info {
+	flex: 1 0 25%;
+}
+
 .Profile-Main {
 	padding: 50px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	flex-wrap: wrap;
 }
 
 /* Mobile Styles */

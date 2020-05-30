@@ -64,7 +64,9 @@ const Login = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='email'
-						className={inputLabels.email && 'field-active'}
+						className={
+							inputLabels.email !== '' ? 'field-active' : ''
+						}
 					>
 						<i className='fas fa-envelope' /> Email
 					</label>
@@ -81,7 +83,9 @@ const Login = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='password'
-						className={inputLabels.password && 'field-active'}
+						className={
+							inputLabels.password !== '' ? 'field-active' : ''
+						}
 					>
 						<i className='fas fa-key' /> Password
 					</label>

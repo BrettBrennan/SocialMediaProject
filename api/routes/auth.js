@@ -11,6 +11,7 @@ const Users = db.users;
 // @route   GET api/auth
 // @desc    Get logged in user
 // @access  Private
+
 router.get('/', auth, async (req, res) => {
 	try {
 		const { id } = req.user;
@@ -22,6 +23,8 @@ router.get('/', auth, async (req, res) => {
 				'profile_pic',
 				'website',
 				'bio',
+				'friend_requests',
+				'friends',
 				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',
@@ -40,13 +43,12 @@ router.get('/', auth, async (req, res) => {
 // @access  Public
 router.post(
 	'/',
+
 	[
-		auth,
-		[
-			check('email', 'Please include a valid email').isEmail(),
-			check('password', 'Password is required').exists(),
-		],
+		check('email', 'Please include a valid email').isEmail(),
+		check('password', 'Password is required').exists(),
 	],
+
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {

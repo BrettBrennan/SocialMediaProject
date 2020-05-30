@@ -5,6 +5,19 @@ const Users = db.users;
 const config = require('config');
 const { validationResult } = require('express-validator');
 // Create and Save a new User
+const userAttr = [
+	'id',
+	'name',
+	'email',
+	'profile_pic',
+	'website',
+	'bio',
+	'friend_requests',
+	'friends',
+	'Subscribed_Sections',
+	'createdAt',
+	'updatedAt',
+];
 exports.create = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -63,17 +76,7 @@ exports.findAll = async (req, res) => {
 
 	try {
 		let userFind = await Users.findAll({
-			attributes: [
-				'id',
-				'name',
-				'email',
-				'profile_pic',
-				'website',
-				'bio',
-				'Subscribed_Sections',
-				'createdAt',
-				'updatedAt',
-			],
+			attributes: userAttr,
 		});
 
 		if (userFind) {
@@ -96,17 +99,7 @@ exports.findOne = async (req, res) => {
 
 	try {
 		let userFind = await Users.findOne({
-			attributes: [
-				'id',
-				'name',
-				'email',
-				'profile_pic',
-				'website',
-				'bio',
-				'Subscribed_Sections',
-				'createdAt',
-				'updatedAt',
-			],
+			attributes: userAttr,
 			where: { id: req.params.id },
 		});
 
@@ -131,17 +124,7 @@ exports.findOneByEmail = async (req, res) => {
 	try {
 		const { email } = req.body;
 		let userFind = await Users.findOne({
-			attributes: [
-				'id',
-				'name',
-				'email',
-				'profile_pic',
-				'website',
-				'bio',
-				'Subscribed_Sections',
-				'createdAt',
-				'updatedAt',
-			],
+			attributes: userAttr,
 			where: { email: email },
 		});
 
@@ -167,7 +150,7 @@ exports.update = async (req, res) => {
 	try {
 		let query = await Users.update(
 			{
-				Subscribed_Sections: req.body,
+				[req.body.type]: req.body.payload,
 			},
 			{
 				where: { id: req.params.id },

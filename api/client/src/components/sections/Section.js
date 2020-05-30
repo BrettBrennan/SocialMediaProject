@@ -54,7 +54,7 @@ const Section = ({ match }) => {
 	const [newSubs, setNewSubs] = useState(null);
 	useEffect(() => {
 		if (_isMounted.current) {
-			authContext.loadUser();
+			if (user === null) authContext.loadUser();
 			clearSection();
 			setLoading();
 			if (secID !== '') {
@@ -155,7 +155,6 @@ const Section = ({ match }) => {
 				<li key={post.id}>
 					<Post
 						post={post}
-						getUser={getUser}
 						updatePost={updatePost}
 						deletePost={deletePost}
 					/>
@@ -194,7 +193,10 @@ const Section = ({ match }) => {
 			newSub[secID] = newSubs[secID] === 1 ? 0 : 1;
 			setNewSubs(newSub);
 		}
-		updateUser(user.id, newSubs);
+		updateUser(user.id, {
+			type: 'Subscribed_Sections',
+			payload: newSubs,
+		});
 	};
 	return (
 		<div className='Section'>

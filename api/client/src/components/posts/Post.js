@@ -8,23 +8,25 @@ import React, {
 import AuthContext from '../../contexts/auth/authContext';
 import CommentContext from '../../contexts/comments/commentContext';
 import AlertContext from '../../contexts/alert/alertContext';
+import UserContext from '../../contexts/users/userContext';
 import Comment from '../comments/Comment';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 const MAX_POST_LENGTH = 100;
-const Post = ({ post, getUser, updatePost, deletePost }) => {
+const Post = ({ post, updatePost, deletePost }) => {
 	const _isMounted = useRef(true);
 	const authContext = useContext(AuthContext);
+	const userContext = useContext(UserContext);
 	const commentContext = useContext(CommentContext);
 	const alertContext = useContext(AlertContext);
 	//
 	const [loading, setLoading] = useState(false);
 	const [showMore, setShowMore] = useState(false);
 	const [editing, setEditing] = useState(false);
+	const [posterName, setPosterName] = useState('');
 	const [editFields, setEditFields] = useState({
 		title: '',
 		body: '',
 	});
-	const [posterName, setPosterName] = useState('');
 	const [postComments, setPostComments] = useState(null);
 	const [comment, setComment] = useState('');
 	//
@@ -35,21 +37,16 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 		addComment,
 		updateComment,
 		deleteComment,
-		clearComments,
 	} = commentContext;
 	const { setAlert } = alertContext;
+	const { getUser } = userContext;
 	//
 	const getUserName = (id) => {
 		setLoading(true);
-		getUser(id)
-			.then((response) => {
-				const { name } = response;
-				setLoading(false);
-				setPosterName(name);
-			})
-			.catch((err) => {
-				return err;
-			});
+		getUser(id).then((response) => {
+			if (response) setPosterName(response.name);
+			setLoading(false);
+		});
 	};
 	//
 	useEffect(() => {
@@ -223,26 +220,31 @@ const Post = ({ post, getUser, updatePost, deletePost }) => {
 						<div className='Post-Title'>
 							<h2>
 								{' '}
-								<Link to={'/'}>{post.title}</Link>
+								<span
+									className='Post-Title-Link'
+									onClick={() => setShowMore(!showMore)}
+								>
+									{post.title}
+								</span>
 								<span className='poster-tag'>Posted By:</span>
-								<span className='poster-name'>
-									<a onClick={getCommentCount}>
-										{posterName}
-									</a>
+								<Link
+									className='poster-name'
+									to={'/user/' + post.creator}
+								>
+									{posterName}
+								</Link>
+								<span className='poster-date'>
+									on:{' '}
+									{new Intl.DateTimeFormat('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: '2-digit',
+									}).format(Date.parse(post.createdAt))}
 								</span>
 							</h2>
 						</div>
 						{showPostButtons()}
 					</div>
-
-					<span className='poster-date'>
-						Posted on:{' '}
-						{new Intl.DateTimeFormat('en-US', {
-							year: 'numeric',
-							month: 'long',
-							day: '2-digit',
-						}).format(Date.parse(post.createdAt))}
-					</span>
 
 					{getPostBody()}
 					{showMore ? (

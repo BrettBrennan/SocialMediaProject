@@ -8,6 +8,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Sections from './components/pages/Sections';
 import Profile from './components/pages/Profile';
+import User from './components/users/User';
 //
 import Section from './components/sections/Section';
 import Register from './components/auth/Register';
@@ -73,6 +74,12 @@ function App() {
 													exact
 													path='/login'
 													component={Login}
+												/>
+												<Route
+													path='/user/:id'
+													render={({ match }) => (
+														<User match={match} />
+													)}
 												/>
 												<PrivateRoute
 													exact

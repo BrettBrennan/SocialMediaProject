@@ -46,6 +46,14 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.TEXT,
 			allowNull: true,
 		},
+		friends: {
+			type: Sequelize.JSON,
+			allowNull: true,
+		},
+		friend_requests: {
+			type: Sequelize.JSON,
+			allowNull: true,
+		},
 		Subscribed_Sections: {
 			type: Sequelize.JSON,
 			allowNull: true,
