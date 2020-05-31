@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, Fragment } from 'react';
 
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alert/alertContext';
+import NewLineToBr from '../Formatters';
 const Comment = ({
 	comment,
 	getUser,
@@ -105,7 +106,7 @@ const Comment = ({
 		<div className='Post-Comment'>
 			<div>
 				<span className='font-weight-bold'>{posterName}</span> -{' '}
-				{comment.msg}
+				<NewLineToBr>{comment.msg}</NewLineToBr>
 			</div>
 
 			{renderButtons()}

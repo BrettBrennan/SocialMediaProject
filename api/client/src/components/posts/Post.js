@@ -10,7 +10,9 @@ import CommentContext from '../../contexts/comments/commentContext';
 import AlertContext from '../../contexts/alert/alertContext';
 import UserContext from '../../contexts/users/userContext';
 import Comment from '../comments/Comment';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import NewLineToBr from '../Formatters';
+
+import { BrowserRouter as Link } from 'react-router-dom';
 const MAX_POST_LENGTH = 100;
 const Post = ({ post, updatePost, deletePost }) => {
 	const _isMounted = useRef(true);
@@ -120,7 +122,11 @@ const Post = ({ post, updatePost, deletePost }) => {
 	//
 	const getPostBody = () => {
 		if (body.length <= MAX_POST_LENGTH || showMore) {
-			return <p>{body}</p>;
+			return (
+				<p>
+					<NewLineToBr>{body}</NewLineToBr>
+				</p>
+			);
 		}
 		const toShow = body.substring(0, MAX_POST_LENGTH) + '...';
 		return <p>{toShow}</p>;

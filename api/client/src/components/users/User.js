@@ -1,14 +1,19 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+
 import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
+
 import Spinner from '../layout/Spinner';
 import Profile_Default from '../pages/profile_default.svg';
+import NewLineToBr from '../Formatters';
 const User = ({ match }) => {
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const { isAuthenticated } = authContext;
 	const { getUser, updateUser } = userContext;
 	const [loading, setLoading] = useState(false);
+	const [isUserProfile, setIsUserProfile] = useState(false);
 	let userID = '';
 	useEffect(() => {
 		let mounted = true;
@@ -21,11 +26,27 @@ const User = ({ match }) => {
 			userID = href.substring(href.lastIndexOf('/') + 1);
 			if (userID !== '') {
 				getUser(userID).then(() => setLoading(false));
+				if (authContext.user !== null) {
+					setIsUserProfile(authContext.user.id === userID);
+				}
 			}
 		}
 		return () => (mounted = false);
 		// eslint-disable-next-line
 	}, []);
+	useEffect(() => {
+		let userLoaded = false;
+		if (!userLoaded) {
+			if (authContext.user !== null) {
+				setIsUserProfile(
+					authContext.user.id ===
+						match.url.substring(match.url.lastIndexOf('/') + 1)
+				);
+				console.log('hello???');
+			}
+		}
+		return () => (userLoaded = true);
+	}, [authContext.user]);
 	if (loading) return <Spinner />;
 	if (!isAuthenticated)
 		return (
@@ -40,6 +61,7 @@ const User = ({ match }) => {
 			</div>
 		);
 	}
+
 	const removeFriend = () => {
 		if (authContext.user === null)
 			authContext.loadUser().then(() => {
@@ -169,10 +191,21 @@ const User = ({ match }) => {
 							</a>
 						</h4>
 					)}
-				{getFriendButtons()}
+				{isUserProfile ? (
+					<Link
+						to='/profile'
+						className='btn btn-block btn-primary text-center'
+					>
+						Edit Profile <i className='fas fa-edit' />
+					</Link>
+				) : (
+					getFriendButtons()
+				)}
 			</div>
 			{userContext.user.bio !== null && userContext.user.bio !== '' && (
-				<p className='Profile-Bio'>{userContext.user.bio}</p>
+				<p className='Profile-Bio'>
+					<NewLineToBr>{userContext.user.bio}</NewLineToBr>
+				</p>
 			)}
 		</div>
 	);

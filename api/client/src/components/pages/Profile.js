@@ -3,7 +3,9 @@ import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alert/alertContext';
 import UserContext from '../../contexts/users/userContext';
 import Spinner from '../layout/Spinner';
-import Profile_Default from '../pages/profile_default.svg';
+
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+
 const Profile = () => {
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
@@ -93,7 +95,7 @@ const Profile = () => {
 	};
 	return (
 		<div className='Profile-Main'>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={onSubmit} className='Profile-Form'>
 				<label htmlFor='profile_pic'>Profile Picture</label>
 				<input
 					name='profile_pic'
@@ -109,15 +111,22 @@ const Profile = () => {
 					onChange={onChange}
 				/>
 				<label htmlFor='profile_pic'>About You</label>
-				<input
+				<textarea
 					name='bio'
 					type='text'
 					value={bio || ''}
 					onChange={onChange}
-				/>
-				<button type='submit' className='btn btn-block btn-primary'>
+				></textarea>
+				<button type='submit' className='btn btn-block btn-success'>
 					Update Profile
 				</button>
+				<br />
+				<Link
+					to={'/user/' + user.id}
+					className='btn btn-block btn-outline-primary text-center'
+				>
+					View your profile
+				</Link>
 			</form>
 		</div>
 	);

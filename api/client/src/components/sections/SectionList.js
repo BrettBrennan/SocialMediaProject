@@ -4,7 +4,7 @@ import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alert/alertContext';
 import SectionContext from '../../contexts/sections/sectionContext';
 import Spinner from '../layout/Spinner';
-
+import NewLineToBr from '../Formatters';
 const SectionsList = ({ ownedByUser }) => {
 	const authContext = useContext(AuthContext);
 	const sectionContext = useContext(SectionContext);
@@ -169,7 +169,9 @@ const SectionsList = ({ ownedByUser }) => {
 						{section.title}
 					</Link>
 				</h1>
-				<p>{section.description}</p>
+				<p>
+					<NewLineToBr>{section.description}</NewLineToBr>
+				</p>
 			</li>
 		);
 	};
