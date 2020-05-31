@@ -156,9 +156,12 @@ exports.update = async (req, res) => {
 				where: { id: req.params.id },
 			}
 		);
-
+		let newUser = await Users.findOne({
+			attributes: userAttr,
+			where: { id: req.params.id },
+		});
 		if (query) {
-			res.status(200).json(query);
+			res.status(200).json(newUser);
 		} else {
 			return res.status(400).send("Couldn't Update User");
 		}
@@ -169,7 +172,26 @@ exports.update = async (req, res) => {
 };
 
 // Delete a User with the specified id in the request
-exports.delete = (req, res) => {};
+exports.delete = async (req, res) => {
+	try {
+		let userFind = await Users.findOne({
+			attributes: userAttr,
+			where: { email: email },
+		});
+
+		if (!userFind) {
+			return res.status(404).json({ msg: "User doesn't exist" });
+		}
+
+		await Users.destroy({
+			where: { id: req.params.id },
+		});
+		res.status(200).send('User Deleted');
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+};
 
 // Delete all User from the database.
 exports.deleteAll = (req, res) => {};
