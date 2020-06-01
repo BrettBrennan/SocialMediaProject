@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, Fragment } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import AuthContext from '../../contexts/auth/authContext';
-import AlertContext from '../../contexts/alert/alertContext';
+// import AlertContext from '../../contexts/alert/alertContext';
 import NewLineToBr from '../Formatters';
 const Comment = ({
 	comment,
@@ -11,10 +11,10 @@ const Comment = ({
 	refreshComments,
 }) => {
 	const authContext = useContext(AuthContext);
-	const alertContext = useContext(AlertContext);
+	//const alertContext = useContext(AlertContext);
 	//
-	const { isAuthenticated, user } = authContext;
-	const { setAlert } = alertContext;
+	const { user } = authContext;
+	//const { setAlert } = alertContext;
 	//
 	const [posterName, setPosterName] = useState('');
 	const [commentValue, setCommentValue] = useState('');

@@ -4,7 +4,7 @@ import SectionContext from '../../contexts/sections/sectionContext';
 const SectionForm = () => {
 	const authContext = useContext(AuthContext);
 	const sectionContext = useContext(SectionContext);
-	const { addSection, clearSection, setLoading, loading } = sectionContext;
+	const { addSection, clearSection, setLoading } = sectionContext;
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) authContext.loadUser();

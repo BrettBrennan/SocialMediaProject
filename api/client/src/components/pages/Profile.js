@@ -4,16 +4,17 @@ import AlertContext from '../../contexts/alert/alertContext';
 import UserContext from '../../contexts/users/userContext';
 import Spinner from '../layout/Spinner';
 
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const alertContext = useContext(AlertContext);
-	const { user, isAuthenticated } = authContext;
+	const { user, loading, isAuthenticated } = authContext;
 	const { setAlert } = alertContext;
 	const { updateUser } = userContext;
-	const [loading, setLoading] = useState(false);
+
+	//const [loading, setLoading] = useState(false);
 	let hasLoaded = false;
 	const [userValues, setUserValues] = useState({
 		name: '',
@@ -37,13 +38,13 @@ const Profile = () => {
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
-			setLoading(true);
+			//setLoading(true);
 			if (user === null || !isAuthenticated)
 				authContext.loadUser().then(() => {
 					if (user !== null) {
 						loadValues();
 					}
-					setLoading(false);
+					//setLoading(false);
 				});
 		}
 
@@ -55,7 +56,8 @@ const Profile = () => {
 		if (user !== null && !hasLoaded) {
 			loadValues();
 		}
-	}, [loading]);
+		// eslint-disable-next-line
+	}, [loading, user]);
 	if (loading || (isAuthenticated && user === null)) return <Spinner />;
 	if (!isAuthenticated)
 		return (
@@ -86,7 +88,7 @@ const Profile = () => {
 						payload: userValues.bio,
 					};
 					updateUser(user.id, payload).then((response) => {
-						setLoading(false);
+						//setLoading(false);
 						setAlert('Profile Updated!', 'success');
 					});
 				});

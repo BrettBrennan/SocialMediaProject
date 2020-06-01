@@ -13,7 +13,6 @@ const Navbar = ({ title, icon }) => {
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
-			if (user === null) authContext.loadUser();
 		}
 		return () => (mounted = false);
 	}, []);

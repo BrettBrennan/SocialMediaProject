@@ -1,10 +1,4 @@
-import React, {
-	useContext,
-	useRef,
-	useState,
-	useEffect,
-	Fragment,
-} from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import CommentContext from '../../contexts/comments/commentContext';
 import AlertContext from '../../contexts/alert/alertContext';
@@ -12,7 +6,7 @@ import UserContext from '../../contexts/users/userContext';
 import Comment from '../comments/Comment';
 import NewLineToBr from '../Formatters';
 
-import { BrowserRouter as Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const MAX_POST_LENGTH = 100;
 const Post = ({ post, updatePost, deletePost }) => {
 	const _isMounted = useRef(true);
@@ -131,13 +125,13 @@ const Post = ({ post, updatePost, deletePost }) => {
 		const toShow = body.substring(0, MAX_POST_LENGTH) + '...';
 		return <p>{toShow}</p>;
 	};
-	const getCommentCount = () => {
-		if (postComments === null) {
-			console.log('Null Comments.');
-		} else {
-			console.log('Comments: ' + postComments.length);
-		}
-	};
+	// const getCommentCount = () => {
+	// 	if (postComments === null) {
+	// 		console.log('Null Comments.');
+	// 	} else {
+	// 		console.log('Comments: ' + postComments.length);
+	// 	}
+	// };
 	const getPostInfo = () => {
 		if (postComments === null) {
 			return null;

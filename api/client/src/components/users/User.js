@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
@@ -12,20 +12,18 @@ const User = ({ match }) => {
 	const userContext = useContext(UserContext);
 	const { isAuthenticated } = authContext;
 	const { getUser, updateUser } = userContext;
-	const [loading, setLoading] = useState(false);
 	const [isUserProfile, setIsUserProfile] = useState(false);
-	let userID = '';
+	const [userID, setUserID] = useState('');
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
-			setLoading(true);
 			if (authContext.user === null) {
 				authContext.loadUser();
 			}
 			let href = match.url;
-			userID = href.substring(href.lastIndexOf('/') + 1);
+			setUserID(href.substring(href.lastIndexOf('/') + 1));
 			if (userID !== '') {
-				getUser(userID).then(() => setLoading(false));
+				getUser(userID);
 				if (authContext.user !== null) {
 					setIsUserProfile(authContext.user.id === userID);
 				}
@@ -38,16 +36,12 @@ const User = ({ match }) => {
 		let userLoaded = false;
 		if (!userLoaded) {
 			if (authContext.user !== null) {
-				setIsUserProfile(
-					authContext.user.id ===
-						match.url.substring(match.url.lastIndexOf('/') + 1)
-				);
-				console.log('hello???');
+				setIsUserProfile(authContext.user.id === userID);
 			}
 		}
 		return () => (userLoaded = true);
-	}, [authContext.user]);
-	if (loading) return <Spinner />;
+	}, [authContext.user, userID]);
+	if (authContext.loading || userContext.loading) return <Spinner />;
 	if (!isAuthenticated)
 		return (
 			<div>

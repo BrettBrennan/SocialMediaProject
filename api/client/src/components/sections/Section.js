@@ -34,7 +34,7 @@ const Section = ({ match }) => {
 	} = sectionContext;
 
 	const { isAuthenticated, user } = authContext;
-	const { getUser, updateUser } = userContext;
+	const { updateUser } = userContext;
 	const {
 		posts,
 		addPost,
@@ -174,8 +174,6 @@ const Section = ({ match }) => {
 		if (newSubs === null) return false;
 		if (newSubs[secID] === 1) return true;
 		else return false;
-
-		return false;
 	};
 	const subscribe = () => {
 		if (user === null) return;
