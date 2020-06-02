@@ -43,6 +43,7 @@ const Comment = ({
 		setCommentValue(e.target.value);
 	};
 	const onSubmit = (e) => {
+		e.preventDefault();
 		let newComment = comment;
 		newComment.msg = commentValue;
 		updateComment(newComment);

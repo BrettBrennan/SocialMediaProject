@@ -35,7 +35,7 @@ const SectionState = (props) => {
 		} catch (err) {
 			dispatch({
 				type: SECTION_ERROR,
-				payload: err.response.msg,
+				payload: JSON.stringify(err.response.msg),
 			});
 		}
 	};

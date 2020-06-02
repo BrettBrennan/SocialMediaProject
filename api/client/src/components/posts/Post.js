@@ -29,6 +29,7 @@ const Post = ({ post, updatePost, deletePost }) => {
 	const { title, body } = post;
 	const { isAuthenticated, user } = authContext;
 	const {
+		comments,
 		getComments,
 		addComment,
 		updateComment,
@@ -71,21 +72,22 @@ const Post = ({ post, updatePost, deletePost }) => {
 			newPost.body = editFields.body;
 			updatePost(newPost);
 		} else {
-			setLoading(true);
 			const com = {
 				post: post.id,
 				msg: comment,
 			};
-			addComment(com);
-			setComment('');
-			getComments(post.id)
-				.then((response) => {
-					setPostComments(response);
-					setLoading(false);
-				})
-				.catch((err) => {
-					console.error(err);
-				});
+			addComment(com).then(() => {
+				setComment('');
+				getComments(post.id)
+					.then((response) => {
+						console.log(response);
+						setPostComments(response);
+						setLoading(false);
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			});
 		}
 	};
 	const refreshComments = (comment) => {

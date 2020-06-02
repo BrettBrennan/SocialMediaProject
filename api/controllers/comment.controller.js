@@ -41,6 +41,8 @@ exports.findAllByPost = async (req, res) => {
 	try {
 		let commentFind = await Comments.findAll({
 			where: { post_id: req.params.post_id },
+			limit: 15,
+			order: [['createdAt', 'DESC']],
 		});
 
 		if (!commentFind) {

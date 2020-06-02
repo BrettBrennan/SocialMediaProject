@@ -52,21 +52,31 @@ const Section = ({ match }) => {
 	});
 	const { title, body } = post;
 	const [newSubs, setNewSubs] = useState(null);
+	let hasLoaded = false;
 	useEffect(() => {
 		if (_isMounted.current) {
-			if (user === null) authContext.loadUser();
+			//if (user === null) {
+			authContext.loadUser();
+			//}
 			clearSection();
 			setLoading();
 			if (secID !== '') {
 				getSection(secID);
 				getPosts(secID);
 			}
-			if (user !== null) setNewSubs(user.Subscribed_Sections);
+			if (user !== null) {
+				//setNewSubs(user.Subscribed_Sections);
+			}
 		}
 		return () => (_isMounted.current = false);
 		// eslint-disable-next-line
 	}, []);
-
+	// useEffect(() => {
+	// 	if (user !== null && !hasLoaded) {
+	// 		//setNewSubs(user.Subscribed_Sections);
+	// 	}
+	// 	// eslint-disable-next-line
+	// }, [loading, user]);
 	const onChange = (e) => {
 		setPost({ ...post, [e.target.name]: e.target.value });
 	};
@@ -142,11 +152,7 @@ const Section = ({ match }) => {
 	}
 
 	if (loading) {
-		return (
-			<Fragment>
-				<Spinner />
-			</Fragment>
-		);
+		return <Spinner />;
 	}
 
 	const renderPosts = () => {
@@ -170,13 +176,13 @@ const Section = ({ match }) => {
 		}
 		if (user !== null && user.Subscribed_Sections !== null)
 			setNewSubs(user.Subscribed_Sections);
-
 		if (newSubs === null) return false;
 		if (newSubs[secID] === 1) return true;
 		else return false;
 	};
 	const subscribe = () => {
 		if (user === null) return;
+
 		let newSub = {
 			[secID]: 0,
 		};
@@ -184,13 +190,12 @@ const Section = ({ match }) => {
 			if (user.Subscribed_Sections !== null) {
 				newSub = user.Subscribed_Sections;
 				newSub[secID] = user.Subscribed_Sections === 1 ? 0 : 1;
-				setNewSubs(newSub);
 			}
 		} else if (newSubs !== null) {
 			newSub = newSubs;
 			newSub[secID] = newSubs[secID] === 1 ? 0 : 1;
-			setNewSubs(newSub);
 		}
+		setNewSubs(newSub);
 		updateUser(user.id, {
 			type: 'Subscribed_Sections',
 			payload: newSubs,

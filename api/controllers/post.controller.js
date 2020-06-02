@@ -60,6 +60,7 @@ exports.findAllBySec = async (req, res) => {
 		const { id } = req.params.id;
 		let postFind = await Posts.findAll({
 			where: { section_id: req.params.id },
+			limit: 10,
 			order: [['createdAt', 'DESC']],
 		});
 

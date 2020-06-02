@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from 'react';
-import { BrowserRouter as Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
