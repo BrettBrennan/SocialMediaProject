@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthContext from '../../contexts/auth/authContext';
+import AlertContext from '../../contexts/alert/alertContext';
 import UserContext from '../../contexts/users/userContext';
 
 import Spinner from '../layout/Spinner';
@@ -9,38 +10,31 @@ import Profile_Default from '../pages/profile_default.svg';
 import NewLineToBr from '../Formatters';
 const User = ({ match }) => {
 	const authContext = useContext(AuthContext);
+	const alertContext = useContext(AlertContext);
 	const userContext = useContext(UserContext);
 	const { isAuthenticated } = authContext;
+	const { setAlert } = alertContext;
 	const { getUser, updateUser } = userContext;
 	const [isUserProfile, setIsUserProfile] = useState(false);
-	const [userID, setUserID] = useState('');
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
 			if (authContext.user === null) {
 				authContext.loadUser();
 			}
-			let href = match.url;
-			setUserID(href.substring(href.lastIndexOf('/') + 1));
-			if (userID !== '') {
-				getUser(userID);
+			if (match.params.id !== '') {
+				getUser(match.params.id).then(() => {
+					if (userContext.error !== null)
+						console.error(userContext.error);
+				});
 				if (authContext.user !== null) {
-					setIsUserProfile(authContext.user.id === userID);
+					setIsUserProfile(authContext.user.id === match.params.id);
 				}
 			}
 		}
 		return () => (mounted = false);
 		// eslint-disable-next-line
 	}, []);
-	useEffect(() => {
-		let userLoaded = false;
-		if (!userLoaded) {
-			if (authContext.user !== null) {
-				setIsUserProfile(authContext.user.id === userID);
-			}
-		}
-		return () => (userLoaded = true);
-	}, [authContext.user, userID]);
 	if (authContext.loading || userContext.loading) return <Spinner />;
 	if (!isAuthenticated)
 		return (
@@ -57,27 +51,25 @@ const User = ({ match }) => {
 	}
 
 	const removeFriend = () => {
-		if (authContext.user === null)
+		if (authContext.user === null) {
 			authContext.loadUser().then(() => {
-				if (authContext.user.friends !== null) {
-					if (authContext.user.friends[userContext.user.id] === 1) {
-						let fList = authContext.user.friends;
-						fList[userContext.user.id] = 0;
-						updateUser(authContext.user.id, {
-							type: 'friends',
-							payload: fList,
-						});
-					}
-				}
+				removeFriend();
 			});
-		else {
+		} else {
 			if (authContext.user.friends !== null) {
 				if (authContext.user.friends[userContext.user.id] === 1) {
 					let fList = authContext.user.friends;
-					fList[userContext.user.id] = 0;
+					delete fList[userContext.user.id];
+					if (JSON.stringify(fList) === '{}') fList = null;
 					updateUser(authContext.user.id, {
 						type: 'friends',
 						payload: fList,
+					}).then(() => {
+						userContext.removeFriend(
+							userContext.user.id,
+							authContext.user.id
+						);
+						setAlert('Friend Removed!', 'danger');
 					});
 				}
 			}
@@ -87,14 +79,23 @@ const User = ({ match }) => {
 		if (authContext.user === null) {
 			authContext.loadUser().then(() => {
 				let fList = {
-					[authContext.user.id]: Date.now(),
+					[authContext.user.id]: {
+						Name: authContext.user.name,
+						Date: Date.now(),
+					},
 				};
 				if (userContext.user.friend_requests !== null)
 					fList = userContext.user.friend_requests;
-				fList[authContext.user.id] = Date.now();
+				fList[authContext.user.id] = {
+					Name: authContext.user.name,
+					Date: Date.now(),
+				};
+				fList[authContext.user.id].Name = authContext.user.name;
 				updateUser(userContext.user.id, {
 					type: 'friend_requests',
 					payload: fList,
+				}).then(() => {
+					setAlert('Friend Request Sent!', 'success');
 				});
 			});
 		} else {
@@ -113,7 +114,7 @@ const User = ({ match }) => {
 			updateUser(userContext.user.id, {
 				type: 'friend_requests',
 				payload: fList,
-			}).then((response) => {});
+			});
 		}
 	};
 	const getFriendButtons = () => {
@@ -137,7 +138,17 @@ const User = ({ match }) => {
 		if (isFriends) {
 			return (
 				<Fragment>
-					<button className='btn btn-remove' onClick={removeFriend}>
+					<button
+						className='btn btn-remove'
+						onClick={() => {
+							if (
+								window.confirm(
+									'Are you sure you want to remove this friend?'
+								)
+							)
+								removeFriend();
+						}}
+					>
 						Remove Friend
 					</button>
 					<button className='btn btn-blok'>Block</button>

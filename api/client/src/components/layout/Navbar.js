@@ -69,42 +69,54 @@ const Navbar = ({ title, icon }) => {
 			}).then(() => {
 				let newRequests = user.friend_requests;
 				delete newRequests[id];
+				if (JSON.stringify(newRequests) === '{}') newRequests = null;
 				updateUser(user.id, {
 					type: 'friend_requests',
 					payload: newRequests,
 				});
+				userContext.acceptFriendRequest(id, user.id);
 			});
 		}
 	};
-	const declineRequest = (id) => {};
+	const declineRequest = (id) => {
+		if (user !== null) {
+			let fList = user.friend_requests;
+			delete fList[id];
+			if (JSON.stringify(fList) === '{}') fList = null;
+			updateUser(user.id, {
+				type: 'friend_requests',
+				payload: fList,
+			});
+		}
+	};
 	const getRequests = () => {
 		let returnValue = [];
-		for (let key in user.friend_requests) {
-			let value = (
-				<li key={key} className='Notifications-Item'>
-					<span className='Notifications-FR-Name'>
-						{user.friend_requests[key].Name}
-					</span>
-					<i
-						className='fas fa-check Notifications-Accept'
-						onClick={() => acceptRequest(key)}
-					/>
-					<i
-						className='fas fa-ban Notifications-Decline'
-						onClick={() => declineRequest(key)}
-					/>
-				</li>
-			);
-			returnValue.push(value);
-		}
-		if (returnValue === []) return <li>No friend requests.</li>;
+		if (user.friend_requests !== null)
+			for (let key in user.friend_requests) {
+				let value = (
+					<li key={key} className='Notifications-Item'>
+						<span className='Notifications-FR-Name'>
+							{user.friend_requests[key].Name}
+						</span>
+						<i
+							className='fas fa-check Notifications-Accept'
+							onClick={() => acceptRequest(key)}
+						/>
+						<i
+							className='fas fa-ban Notifications-Decline'
+							onClick={() => declineRequest(key)}
+						/>
+					</li>
+				);
+				returnValue.push(value);
+			}
+		if (returnValue.length === 0 || returnValue === null)
+			return <li>No friend requests.</li>;
 		return returnValue;
 	};
 	const getNotifications = () => {
 		if (user !== null) {
-			if (user.friend_requests !== null) {
-				return getRequests();
-			}
+			return getRequests();
 		}
 		return null;
 	};

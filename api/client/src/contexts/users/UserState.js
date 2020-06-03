@@ -73,6 +73,70 @@ const UserState = (props) => {
 			});
 		}
 	};
+	const removeFriend = async (other_id, id) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const gUser = await axios.get('/api/user/' + other_id);
+
+			if (gUser) {
+				let fList = null;
+				fList = gUser.data.friends;
+
+				if (fList) if (fList[id]) delete fList[id];
+
+				if (JSON.stringify(fList) === '{}') fList = null;
+
+				const Payload = { type: 'friends', payload: fList };
+				const res = await axios.put(
+					`/api/user/${other_id}`,
+					Payload,
+					config
+				);
+				dispatch({
+					type: UPDATE_USER,
+					payload: res.data,
+				});
+			}
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	const acceptFriendRequest = async (id, currentUser) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const gUser = await axios.get('/api/user/' + id);
+
+			if (gUser) {
+				let fList = null;
+				if (gUser.data.friends !== null) fList = gUser.data.friends;
+
+				fList = { ...fList, [currentUser]: 1 };
+
+				const Payload = { type: 'friends', payload: fList };
+				const res = await axios.put(`/api/user/${id}`, Payload, config);
+				dispatch({
+					type: UPDATE_USER,
+					payload: res.data,
+				});
+			}
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	return (
 		<userContext.Provider
 			value={{
@@ -84,6 +148,8 @@ const UserState = (props) => {
 				getUsers,
 				setLoading,
 				updateUser,
+				removeFriend,
+				acceptFriendRequest,
 			}}
 		>
 			{props.children}
