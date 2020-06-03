@@ -9,12 +9,12 @@ const Sections = () => {
 		<div className='grid-2'>
 			<div className='col-md'>
 				<div className='Head-Line'>Featured Sections</div>
-				<SectionsList ownedByUser={false} />
+				<SectionsList ownedByUser={false} subscribeFilter={false} />
 			</div>
 			<div className='col-md'>
 				<SectionForm />
 				<br />
-				<SectionsList ownedByUser={true} />
+				<SectionsList ownedByUser={true} subscribeFilter={false} />
 			</div>
 		</div>
 	);

@@ -184,17 +184,26 @@ const Section = ({ match }) => {
 		if (user === null) return;
 
 		let newSub = {
-			[secID]: 0,
+			[secID]: 1,
 		};
 		if (user !== null && newSubs === null) {
 			if (user.Subscribed_Sections !== null) {
 				newSub = user.Subscribed_Sections;
-				newSub[secID] = user.Subscribed_Sections === 1 ? 0 : 1;
+				if (user.Subscribed_Sections[secID])
+					newSub[secID] =
+						user.Subscribed_Sections[secID] === 1 ? 0 : 1;
+				else newSub[secID] = 1;
 			}
-		} else if (newSubs !== null) {
+		}
+		if (newSubs !== null) {
 			newSub = newSubs;
 			newSub[secID] = newSubs[secID] === 1 ? 0 : 1;
 		}
+
+		if (newSub[secID] === 0) delete newSub[secID];
+
+		if (JSON.stringify(newSub) === '{}') newSub = null;
+
 		setNewSubs(newSub);
 		updateUser(user.id, {
 			type: 'Subscribed_Sections',
