@@ -10,6 +10,7 @@ import {
 	UPDATE_POST,
 	GET_POST,
 	GET_POSTS,
+	GET_FEED_POSTS,
 	CLEAR_POST,
 	CLEAR_POSTS,
 	SET_LOADING,
@@ -19,6 +20,7 @@ const PostState = (props) => {
 	const initialState = {
 		post: null,
 		posts: null,
+		feed_posts: null,
 		error: null,
 		loading: true,
 	};
@@ -30,6 +32,31 @@ const PostState = (props) => {
 			const res = await axios.get('/api/post/' + id);
 			dispatch({
 				type: GET_POST,
+				payload: res.data,
+			});
+		} catch (err) {
+			dispatch({
+				type: POST_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	const getFeedPosts = async (subbed_sections) => {
+		try {
+			let subs = '';
+			if (subbed_sections === null) return null;
+
+			for (let sub in subbed_sections) {
+				if (subs === '') {
+					if (subbed_sections[sub] === 1) subs = sub;
+				} else {
+					if (subbed_sections[sub] === 1) subs = subs + '/' + sub;
+				}
+			}
+			const res = await axios.get('/api/posts/feed?subs=' + subs);
+
+			dispatch({
+				type: GET_FEED_POSTS,
 				payload: res.data,
 			});
 		} catch (err) {
@@ -110,6 +137,7 @@ const PostState = (props) => {
 			value={{
 				post: state.post,
 				posts: state.posts,
+				feed_posts: state.feed_posts,
 				error: state.error,
 				loading: state.loading,
 				addPost,
@@ -117,6 +145,7 @@ const PostState = (props) => {
 				updatePost,
 				getPost,
 				getPosts,
+				getFeedPosts,
 				clearPost,
 				clearPosts,
 				setLoading,

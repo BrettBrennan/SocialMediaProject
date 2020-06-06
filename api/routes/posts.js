@@ -10,6 +10,8 @@ const auth = require('../middleware/auth');
 
 router.get('/', posts.findAll);
 
+router.get('/feed', auth, posts.findFeed);
+
 // ?@route GET api/posts/section_id
 // ?@desc Get a post by section ID
 // ?@access Public or Private depending on poster's preference

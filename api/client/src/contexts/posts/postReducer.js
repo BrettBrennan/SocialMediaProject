@@ -5,6 +5,7 @@ import {
 	POST_ERROR,
 	GET_POST,
 	GET_POSTS,
+	GET_FEED_POSTS,
 	CLEAR_POST,
 	CLEAR_POSTS,
 	SET_LOADING,
@@ -27,6 +28,12 @@ export default (state, action) => {
 			return {
 				...state,
 				posts: action.payload,
+				loading: false,
+			};
+		case GET_FEED_POSTS:
+			return {
+				...state,
+				feed_posts: action.payload,
 				loading: false,
 			};
 		case ADD_POST:

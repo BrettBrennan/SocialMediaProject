@@ -2,7 +2,8 @@ const db = require('../models');
 const Sections = db.sections;
 const Posts = db.posts;
 const { validationResult } = require('express-validator');
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 // Create and Save a new Post
 exports.create = async (req, res) => {
 	const errors = validationResult(req);
@@ -38,16 +39,22 @@ exports.create = async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 };
-
+exports.findAll = async (req, res) => {};
 // Retrieve all Post from the database.
-exports.findAll = async (req, res) => {
+exports.findFeed = async (req, res) => {
 	try {
-		let postFind = await Posts.findAll();
-
+		let subArray = req.query.subs.split('/');
+		let whereFilter = {
+			section_id: {
+				[Op.or]: subArray,
+			},
+		};
+		let postFind = await Posts.findAll({
+			where: whereFilter,
+		});
 		if (!postFind) {
 			return res.status(404).json({ msg: 'No posts.' });
 		}
-
 		return res.status(200).send(postFind);
 	} catch (err) {
 		console.error(err.message);
@@ -57,7 +64,6 @@ exports.findAll = async (req, res) => {
 // Retrieve all Posts from a certain Section from the database.
 exports.findAllBySec = async (req, res) => {
 	try {
-		const { id } = req.params.id;
 		let postFind = await Posts.findAll({
 			where: { section_id: req.params.id },
 			limit: 10,
