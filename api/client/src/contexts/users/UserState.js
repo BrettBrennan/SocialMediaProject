@@ -20,6 +20,17 @@ const UserState = (props) => {
 	};
 	const [state, dispatch] = useReducer(userReducer, initialState);
 	const setLoading = () => dispatch({ type: SET_LOADING });
+	const getUserName = async (id) => {
+		try {
+			const res = await axios.get('/api/user/' + id);
+			return res.data.name;
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	//* Get User
 	const getUser = async (id) => {
 		try {
@@ -144,6 +155,7 @@ const UserState = (props) => {
 				users: state.users,
 				error: state.error,
 				loading: state.loading,
+				getUserName,
 				getUser,
 				getUsers,
 				setLoading,
