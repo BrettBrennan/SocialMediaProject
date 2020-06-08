@@ -28,7 +28,6 @@ const SectionsList = ({ ownedByUser }) => {
 	} = sectionContext;
 	const { setAlert } = alertContext;
 	useEffect(() => {
-		//clearSection();
 		let mounted = true;
 		if (ownedByUser === true) {
 			if (user !== null) {
@@ -76,19 +75,6 @@ const SectionsList = ({ ownedByUser }) => {
 			setAlert('Section Deleted!', 'danger');
 		}
 	};
-	// const getSubbedSections = () => {
-	// 	if (!user) return null;
-	// 	if (JSON.stringify(user.Subscribed_Sections) === '{}') {
-	// 		return (
-	// 			<li>
-	// 				You haven't subscribed to any Sections yet! Visit the
-	// 				Sections page to find Sections!
-	// 			</li>
-	// 		);
-	// 	}
-
-	// 	return sections.map((section) => renderSection(section));
-	// };
 	const renderEditSection = () => {
 		return (
 			<form onSubmit={onSubmit}>
@@ -122,23 +108,6 @@ const SectionsList = ({ ownedByUser }) => {
 		);
 	};
 	const renderSection = (section) => {
-		// if (subscribeFilter) {
-		// 	if (user) {
-		// 		if (
-		// 			user.Subscribed_Sections &&
-		// 			user.Subscribed_Sections !== null &&
-		// 			JSON.stringify(user.Subscribed_Sections) !== '{}'
-		// 		) {
-		// 			if (
-		// 				user.Subscribed_Sections[section.id] === 0 ||
-		// 				!user.Subscribed_Sections[section.id]
-		// 			) {
-		// 				return null;
-		// 			}
-		// 		}
-		// 	}
-		// }
-
 		if (ownedByUser && isAuthenticated) {
 			if (section.creator === user.id) {
 				return (

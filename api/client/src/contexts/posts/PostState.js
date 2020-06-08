@@ -59,6 +59,7 @@ const PostState = (props) => {
 				type: GET_FEED_POSTS,
 				payload: res.data,
 			});
+			return res.data;
 		} catch (err) {
 			dispatch({
 				type: POST_ERROR,

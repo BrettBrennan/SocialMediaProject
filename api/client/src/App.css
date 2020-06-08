@@ -741,7 +741,7 @@ table th {
 .Home-Page {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	align-items: flex-start;
 }
 
 .Feed {

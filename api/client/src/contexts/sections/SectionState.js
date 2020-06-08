@@ -24,6 +24,17 @@ const SectionState = (props) => {
 	};
 	const [state, dispatch] = useReducer(sectionReducer, initialState);
 	const setLoading = () => dispatch({ type: SET_LOADING });
+	const getSectionName = async (id) => {
+		try {
+			const res = await axios.get('/api/section/' + id);
+			return res.data.title;
+		} catch (err) {
+			dispatch({
+				type: SECTION_ERROR,
+				payload: JSON.stringify(err.response.msg),
+			});
+		}
+	};
 	//* Get Section
 	const getSection = async (id) => {
 		try {
@@ -136,6 +147,7 @@ const SectionState = (props) => {
 				addSection,
 				deleteSection,
 				updateSection,
+				getSectionName,
 				getSection,
 				getSections,
 				getSectionsByUser,
