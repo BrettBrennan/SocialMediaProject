@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/auth/authContext';
 import SectionContext from '../../contexts/sections/sectionContext';
 const SectionForm = () => {
@@ -23,7 +24,7 @@ const SectionForm = () => {
 			<div>
 				<h2>Want to create your own?</h2>
 				<h3>
-					<a href='#'>Log in now to access this feature.</a>
+					<Link to='/login'>Log in now to access this feature.</Link>
 				</h3>
 			</div>
 		);

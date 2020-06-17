@@ -1,19 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-// import AuthContext from '../../contexts/auth/authContext';
+import React from 'react';
 import Feed from '../layout/Feed';
 import Friends from '../layout/Friends';
 const Home = () => {
-	// const authContext = useContext(AuthContext);
-
-	// useEffect(() => {
-	// 	let mounted = true;
-	// 	if (mounted) {
-	// 		authContext.loadUser();
-	// 	}
-	// 	return () => (mounted = false);
-	// 	// eslint-disable-next-line
-	// }, []);
-
 	return (
 		<div className='Home-Page'>
 			<div className='Feed'>

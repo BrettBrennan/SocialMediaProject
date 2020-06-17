@@ -8,6 +8,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Sections from './components/pages/Sections';
 import Profile from './components/pages/Profile';
+import Post from './components/pages/Post';
 import User from './components/users/User';
 //
 import Section from './components/sections/Section';
@@ -59,6 +60,12 @@ function App() {
 														<Section
 															match={match}
 														/>
+													)}
+												/>
+												<Route
+													path='/posts/:id'
+													render={({ match }) => (
+														<Post match={match} />
 													)}
 												/>
 												<Route

@@ -22,7 +22,7 @@ const Profile = () => {
 		website: '',
 		bio: '',
 	});
-	const { name, profile_pic, website, bio } = userValues;
+	const { profile_pic, website, bio } = userValues;
 
 	const loadValues = () => {
 		if (user === null) return;

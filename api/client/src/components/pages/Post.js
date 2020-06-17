@@ -1,22 +1,22 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import CommentContext from '../../contexts/comments/commentContext';
+import PostContext from '../../contexts/posts/postContext';
 import AlertContext from '../../contexts/alert/alertContext';
 import UserContext from '../../contexts/users/userContext';
 import Comment from '../comments/Comment';
 import NewLineToBr from '../Formatters';
 
 import { Link } from 'react-router-dom';
-const MAX_POST_LENGTH = 100;
-const Post = ({ post, updatePost, deletePost }) => {
+const Post = ({ match }) => {
 	const _isMounted = useRef(true);
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const commentContext = useContext(CommentContext);
+	const postContext = useContext(PostContext);
 	const alertContext = useContext(AlertContext);
 	//
 	const [loading, setLoading] = useState(false);
-	const [showMore, setShowMore] = useState(false);
 	const [editing, setEditing] = useState(false);
 	const [posterName, setPosterName] = useState('');
 	const [editFields, setEditFields] = useState({
@@ -25,8 +25,11 @@ const Post = ({ post, updatePost, deletePost }) => {
 	});
 	const [postComments, setPostComments] = useState(null);
 	const [comment, setComment] = useState('');
+	const [post, setPost] = useState({
+		title: '',
+		body: '',
+	});
 	//
-	const { title, body } = post;
 	const { isAuthenticated, user } = authContext;
 	const {
 		getComments,
@@ -34,6 +37,7 @@ const Post = ({ post, updatePost, deletePost }) => {
 		updateComment,
 		deleteComment,
 	} = commentContext;
+	const { getPost, updatePost, deletePost } = postContext;
 	const { setAlert } = alertContext;
 	const { getUser } = userContext;
 	//
@@ -47,14 +51,17 @@ const Post = ({ post, updatePost, deletePost }) => {
 	//
 	useEffect(() => {
 		if (_isMounted.current) {
-			getUserName(post.creator);
-			getComments(post.id)
-				.then((response) => {
-					setPostComments(response);
-				})
-				.catch((err) => {
-					console.error(err);
-				});
+			getPost(match.params.id).then((response) => {
+				setPost(response);
+				getUserName(response.creator);
+				getComments(response.id)
+					.then((response2) => {
+						setPostComments(response2);
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			});
 		}
 		return () => (_isMounted.current = false);
 		// eslint-disable-next-line
@@ -100,8 +107,8 @@ const Post = ({ post, updatePost, deletePost }) => {
 	const editP = () => {
 		setEditing(true);
 		setEditFields({
-			title: title,
-			body: body,
+			title: post.title,
+			body: post.body,
 		});
 	};
 	const deleteP = () => {
@@ -115,28 +122,24 @@ const Post = ({ post, updatePost, deletePost }) => {
 	if (loading || posterName === '') return <h3>Loading...</h3>;
 	//
 	const getPostBody = () => {
-		if (body.length <= MAX_POST_LENGTH || showMore) {
-			return (
-				<p>
-					<NewLineToBr>{body}</NewLineToBr>
-				</p>
-			);
-		}
-		const toShow = body.substring(0, MAX_POST_LENGTH) + '...';
-		return <p>{toShow}</p>;
-	};
-	const getPostInfo = () => {
-		if (postComments === null) {
-			return null;
-		}
 		return (
 			<p>
-				0 likes | {postComments !== null ? postComments.length : 0}{' '}
-				comment
-				{postComments !== null && postComments.length > 1 ? 's' : ''}
+				<NewLineToBr>{post.body}</NewLineToBr>
 			</p>
 		);
 	};
+	// const getPostInfo = () => {
+	// 	if (postComments === null) {
+	// 		return null;
+	// 	}
+	// 	return (
+	// 		<p>
+	// 			0 likes | {postComments !== null ? postComments.length : 0}{' '}
+	// 			comment
+	// 			{postComments !== null && postComments.length > 1 ? 's' : ''}
+	// 		</p>
+	// 	);
+	// };
 	const renderEditForm = () => {
 		return (
 			<div className='Create-Post'>
@@ -192,33 +195,16 @@ const Post = ({ post, updatePost, deletePost }) => {
 	};
 	const renderPost = () => {
 		return (
-			<div
-				className={
-					showMore ? 'Post-List-Item-Expanded' : 'Post-List-Item'
-				}
-			>
-				<div>
-					<h2 onClick={() => setShowMore(!showMore)}>
-						<i
-							className={
-								showMore
-									? 'fas fa-chevron-right Post-List-Item-Icon-Active'
-									: 'fas fa-chevron-right Post-List-Item-Icon'
-							}
-						/>
-					</h2>
-				</div>
-				<div className='Post-Body'>
-					<div className='Post-Head'>
-						<div className='Post-Title'>
+			<div className='Post-Page'>
+				<div className='Post-Page-Body'>
+					<div className='Post-Page-Head'>
+						<div className='Post-Page-Title'>
 							<h2>
 								{' '}
-								<Link
-									to={'/posts/' + post.id}
-									className='Post-Title-Link'
-								>
+								<span className='Post-Title-Link'>
 									{post.title}
-								</Link>
+								</span>
+								<br />
 								<span className='poster-tag'>Posted By:</span>
 								<Link
 									className='poster-name'
@@ -240,43 +226,40 @@ const Post = ({ post, updatePost, deletePost }) => {
 					</div>
 
 					{getPostBody()}
-					{showMore ? (
-						<ul className='Post-Comments-List'>
-							{isAuthenticated && (
-								<li>
-									<form onSubmit={onSubmit}>
-										<div className='form-group'>
-											<label htmlFor='comment'>
-												Add Comment
-											</label>
-											<textarea
-												name='comment'
-												onChange={onChange}
-												value={comment}
-												required
-											></textarea>
-											<br />
-											<button
-												type='submit'
-												className='btn btn-primary btn-lg'
-											>
-												Comment
-											</button>
-										</div>
-									</form>
-									Comments:
-									{(postComments !== null &&
-										postComments.length) > 0
-										? postComments.length
-										: ' 0'}
-								</li>
-							)}
-							{(postComments !== null && postComments.length) >
-								0 && renderComments()}
-						</ul>
-					) : (
-						getPostInfo()
-					)}
+
+					<ul className='Post-Page-Comments-List'>
+						{isAuthenticated && (
+							<li>
+								<form onSubmit={onSubmit}>
+									<div className='form-group'>
+										<label htmlFor='comment'>
+											Add Comment
+										</label>
+										<textarea
+											name='comment'
+											onChange={onChange}
+											value={comment}
+											required
+										></textarea>
+										<br />
+										<button
+											type='submit'
+											className='btn btn-primary btn-lg'
+										>
+											Comment
+										</button>
+									</div>
+								</form>
+								Comments:
+								{(postComments !== null &&
+									postComments.length) > 0
+									? postComments.length
+									: ' 0'}
+							</li>
+						)}
+						{(postComments !== null && postComments.length) > 0 &&
+							renderComments()}
+					</ul>
 				</div>
 			</div>
 		);

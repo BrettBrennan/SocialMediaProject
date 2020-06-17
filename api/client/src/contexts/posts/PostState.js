@@ -34,6 +34,7 @@ const PostState = (props) => {
 				type: GET_POST,
 				payload: res.data,
 			});
+			return res.data;
 		} catch (err) {
 			dispatch({
 				type: POST_ERROR,

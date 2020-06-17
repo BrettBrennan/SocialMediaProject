@@ -51,7 +51,7 @@ const Friends = () => {
 
 		if (friendsList) {
 			return friendsList.map((friend) => (
-				<li key={friend}>
+				<li key={friend.id}>
 					<Link to={'/user/' + friend.id}>{friend.name}</Link>
 				</li>
 			));

@@ -63,7 +63,10 @@ exports.findAllByUser = async (req, res) => {
 		}
 
 		return res.status(200).send(secFind);
-	} catch (err) {}
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
 };
 // Find a single Section with an id
 exports.findOne = async (req, res) => {

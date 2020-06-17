@@ -37,7 +37,11 @@ export default (state, action) => {
 				loading: false,
 			};
 		case ADD_POST:
-			return { ...state, posts: [action.payload, ...state.posts] };
+			return {
+				...state,
+				posts: [action.payload, ...state.posts],
+				loading: false,
+			};
 		case UPDATE_POST:
 			return {
 				...state,

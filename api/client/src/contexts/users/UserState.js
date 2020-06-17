@@ -4,7 +4,10 @@ import userReducer from './userReducer';
 import axios from 'axios';
 
 import {
+	ADD_MESSAGE,
 	GET_USER,
+	GET_MESSAGES,
+	MESSAGE_ERROR,
 	GET_USERS,
 	SET_LOADING,
 	USER_ERROR,
@@ -15,11 +18,32 @@ const UserState = (props) => {
 	const initialState = {
 		user: null,
 		users: null,
+		messages: null,
 		error: null,
 		loading: true,
 	};
 	const [state, dispatch] = useReducer(userReducer, initialState);
 	const setLoading = () => dispatch({ type: SET_LOADING });
+	const sendMessage = async (id, message) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const res = await axios.post(
+				'/api/messages',
+				{
+					receiver: id,
+					message: message,
+				},
+				config
+			);
+			dispatch({ type: ADD_MESSAGE, payload: res.data });
+		} catch (err) {
+			dispatch({ type: MESSAGE_ERROR, payload: err.response.msg });
+		}
+	};
 	const getUserName = async (id) => {
 		try {
 			const res = await axios.get('/api/user/' + id);
@@ -60,6 +84,34 @@ const UserState = (props) => {
 		} catch (err) {
 			dispatch({
 				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	const getUnreadMessages = async (user_id) => {
+		console.log('Getting unread messages');
+		try {
+			const res = await axios.get('/api/messages/unread/' + user_id);
+			return res.data;
+		} catch (err) {
+			dispatch({
+				type: MESSAGE_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	//* Get Messages
+	// ? user_id is OTHER user, not the logged in user.
+	const getMessages = async (user_id) => {
+		try {
+			const res = await axios.get('/api/messages/' + user_id);
+			dispatch({
+				type: GET_MESSAGES,
+				payload: res.data,
+			});
+		} catch (err) {
+			dispatch({
+				type: MESSAGE_ERROR,
 				payload: err.response.msg,
 			});
 		}
@@ -153,8 +205,12 @@ const UserState = (props) => {
 			value={{
 				user: state.user,
 				users: state.users,
+				messages: state.messages,
 				error: state.error,
 				loading: state.loading,
+				getMessages,
+				getUnreadMessages,
+				sendMessage,
 				getUserName,
 				getUser,
 				getUsers,

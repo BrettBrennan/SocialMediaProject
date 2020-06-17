@@ -47,6 +47,7 @@ const Feed = () => {
 				postContext.feed_posts !== null
 					? postContext.feed_posts
 					: response;
+			// eslint-disable-next-line
 			feed.map((post) => {
 				userContext.getUserName(post.creator).then((response2) => {
 					sectionContext
@@ -55,7 +56,10 @@ const Feed = () => {
 							setFeedList((feedList) => [
 								...feedList,
 								{
+									id: post.id,
+									creator_id: post.creator,
 									creator: response2,
+									section_id: post.section_id,
 									section_name: response3,
 									title: post.title,
 								},
@@ -67,14 +71,18 @@ const Feed = () => {
 		}
 	}
 	function getFeed() {
-		console.log('Feed: ' + feedList.length);
 		if (feedList === null) return <li>No posts yet.</li>;
-		console.log(feedList[0]);
 		return feedList.map((post) => (
-			<li key={post}>
-				<Link to='/'>
-					<strong>{post.title}</strong> - Posted By{' '}
-					<strong>{post.creator}</strong> in{' '}
+			<li key={post.id}>
+				<Link to={'/posts/' + post.id}>
+					<strong>{post.title}</strong>
+				</Link>{' '}
+				- Posted By{' '}
+				<Link to={'/user/' + post.creator_id}>
+					<strong>{post.creator}</strong>
+				</Link>{' '}
+				in{' '}
+				<Link to={'/sections/' + post.section_id}>
 					<strong>{post.section_name}</strong>
 				</Link>
 			</li>

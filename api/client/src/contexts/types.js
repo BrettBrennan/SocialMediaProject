@@ -42,3 +42,7 @@ export const GET_USER = 'GET_USER';
 export const GET_USERS = 'GET_USERS';
 export const UPDATE_USER = 'UPDATE_USER';
 export const USER_ERROR = 'USER_ERROR';
+//? MESSAGES
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const GET_MESSAGES = 'GET_MESSAGES';
+export const MESSAGE_ERROR = 'MESSAGE_ERROR';

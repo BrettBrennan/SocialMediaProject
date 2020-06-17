@@ -106,7 +106,9 @@ const Comment = ({
 	return (
 		<div className='Post-Comment'>
 			<div>
-				<span className='font-weight-bold'>{posterName}</span> -{' '}
+				<span className='font-weight-bold'>{posterName}</span> -
+				{' 15 minutes ago'}
+				<br />
 				<NewLineToBr>{comment.msg}</NewLineToBr>
 			</div>
 

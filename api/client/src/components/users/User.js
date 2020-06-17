@@ -14,8 +14,10 @@ const User = ({ match }) => {
 	const userContext = useContext(UserContext);
 	const { isAuthenticated } = authContext;
 	const { setAlert } = alertContext;
-	const { getUser, updateUser } = userContext;
+	const { getUser, updateUser, sendMessage } = userContext;
 	const [isUserProfile, setIsUserProfile] = useState(false);
+	const [showMessageForm, setShowMessageForm] = useState(false);
+	const [message, setMessage] = useState('');
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
@@ -35,6 +37,19 @@ const User = ({ match }) => {
 		return () => (mounted = false);
 		// eslint-disable-next-line
 	}, []);
+	const onSubmit = (e) => {
+		e.preventDefault();
+		sendMessage(match.params.id, message);
+		setShowMessageForm(false);
+		setMessage('');
+	};
+	const onChange = (e) => {
+		setMessage(e.target.value);
+	};
+	const cancel = () => {
+		setShowMessageForm(false);
+		setMessage('');
+	};
 	if (authContext.loading || userContext.loading) return <Spinner />;
 	if (!isAuthenticated)
 		return (
@@ -137,7 +152,7 @@ const User = ({ match }) => {
 		}
 		if (isFriends) {
 			return (
-				<Fragment>
+				<div className='Friend-Buttons'>
 					<button
 						className='btn btn-remove'
 						onClick={() => {
@@ -152,15 +167,22 @@ const User = ({ match }) => {
 						Remove Friend
 					</button>
 					<button className='btn btn-blok'>Block</button>
-				</Fragment>
+					<br />
+					<button
+						className='btn btn-message'
+						onClick={() => setShowMessageForm(true)}
+					>
+						Send Message
+					</button>
+				</div>
 			);
 		}
 		if (requestPending) {
 			return (
-				<Fragment>
+				<div className='Friend-Buttons'>
 					<button className='btn btn-pending'>Request Sent</button>
 					<button className='btn btn-blok'>Block</button>
-				</Fragment>
+				</div>
 			);
 		}
 		return (
@@ -203,6 +225,19 @@ const User = ({ match }) => {
 					>
 						Edit Profile <i className='fas fa-edit' />
 					</Link>
+				) : showMessageForm === true ? (
+					<form onSubmit={onSubmit}>
+						<textarea
+							value={message}
+							onChange={onChange}
+						></textarea>
+						<button type='submit' className='btn btn-primary'>
+							Send
+						</button>
+						<button onClick={cancel} className='btn btn-danger'>
+							Cancel
+						</button>
+					</form>
 				) : (
 					getFriendButtons()
 				)}

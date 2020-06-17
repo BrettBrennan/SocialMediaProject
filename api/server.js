@@ -16,6 +16,8 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/post', require('./routes/post'));
 app.use('/api/posts', require('./routes/posts'));
 
+app.use('/api/messages', require('./routes/messages'));
+
 app.use('/api/section', require('./routes/section'));
 app.use('/api/sections', require('./routes/sections'));
 

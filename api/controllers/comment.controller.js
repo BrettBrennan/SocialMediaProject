@@ -3,7 +3,7 @@ const Comments = db.comments;
 const Posts = db.posts;
 const { validationResult } = require('express-validator');
 
-// Create and Save a new Comment
+//* Create and Save a new Comment
 exports.create = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -36,7 +36,7 @@ exports.create = async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 };
-// Retrieve all comments from a specific post in the database.com
+//* Retrieve all comments from a specific post in the database.com
 exports.findAllByPost = async (req, res) => {
 	try {
 		let commentFind = await Comments.findAll({
@@ -55,7 +55,7 @@ exports.findAllByPost = async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 };
-// Retrieve all Comment from the database.
+//* Retrieve all Comment from the database.
 exports.findAll = async (req, res) => {
 	try {
 		let commentFind = await Comments.findAll();
@@ -71,7 +71,7 @@ exports.findAll = async (req, res) => {
 	}
 };
 
-// Find a single Comment with an id
+//* Find a single Comment with an id
 exports.findOne = async (req, res) => {
 	try {
 		let commentFind = await Comments.findOne({
@@ -89,7 +89,7 @@ exports.findOne = async (req, res) => {
 	}
 };
 
-// Update a Comment by the id in the request
+//* Update a Comment by the id in the request
 exports.update = async (req, res) => {
 	try {
 		let commentFind = await Comments.findOne({
@@ -122,7 +122,7 @@ exports.update = async (req, res) => {
 	}
 };
 
-// Delete a Comment with the specified id in the request
+//* Delete a Comment with the specified id in the request
 exports.delete = async (req, res) => {
 	try {
 		let commentFind = await Comments.findOne({
@@ -149,5 +149,5 @@ exports.delete = async (req, res) => {
 	}
 };
 
-// Delete all Comments from the database.
+//* Delete all Comments from the database.
 exports.deleteAll = async (req, res) => {};

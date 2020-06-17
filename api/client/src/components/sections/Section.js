@@ -1,10 +1,4 @@
-import React, {
-	useContext,
-	useState,
-	useEffect,
-	useRef,
-	Fragment,
-} from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 
 import AuthContext from '../../contexts/auth/authContext';
 import UserContext from '../../contexts/users/userContext';
@@ -52,7 +46,6 @@ const Section = ({ match }) => {
 	});
 	const { title, body } = post;
 	const [newSubs, setNewSubs] = useState(null);
-	let hasLoaded = false;
 	useEffect(() => {
 		if (_isMounted.current) {
 			//if (user === null) {

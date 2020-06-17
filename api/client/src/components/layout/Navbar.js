@@ -8,14 +8,42 @@ const Navbar = ({ title, icon }) => {
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const { isAuthenticated, logout, user } = authContext;
-	const { updateUser } = userContext;
+	const { updateUser, getUnreadMessages } = userContext;
 	const [showNots, setShowNots] = useState(false);
+	const [messages, setMessages] = useState(null);
+
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
+			if (isAuthenticated && user) getMessages(user.id);
+			if (!isAuthenticated || !user)
+				authContext.loadUser().then((res_user) => {
+					if (res_user) getMessages(res_user.id);
+				});
 		}
 		return () => (mounted = false);
+		// eslint-disable-next-line
 	}, []);
+	const getMessages = (id) => {
+		if (!id) return null;
+		getUnreadMessages(id).then(async (res) => {
+			for (let message in res) {
+				let name = await userContext.getUserName(res[message].sender);
+				const newMessage = {
+					id: res[message].id,
+					name: name,
+					message: res[message].message,
+				};
+				if (messages) {
+					setMessages((messages) => [...messages, newMessage]);
+				} else {
+					setMessages({
+						0: newMessage,
+					});
+				}
+			}
+		});
+	};
 	const onLogout = () => {
 		logout();
 	};
@@ -91,6 +119,18 @@ const Navbar = ({ title, icon }) => {
 	};
 	const getRequests = () => {
 		let returnValue = [];
+		if (messages !== null) {
+			for (let key in messages) {
+				let value = (
+					<li key={key} className='Notifications-Item'>
+						<Link to='/messages/'>
+							{messages[key].name} sent you a message!
+						</Link>
+					</li>
+				);
+				returnValue.push(value);
+			}
+		}
 		if (user.friend_requests !== null)
 			for (let key in user.friend_requests) {
 				let value = (
@@ -111,7 +151,7 @@ const Navbar = ({ title, icon }) => {
 				returnValue.push(value);
 			}
 		if (returnValue.length === 0 || returnValue === null)
-			return <li>No friend requests.</li>;
+			return <li>No Notifications.</li>;
 		return returnValue;
 	};
 	const getNotifications = () => {

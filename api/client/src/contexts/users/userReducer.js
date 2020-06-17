@@ -1,9 +1,12 @@
 import {
+	ADD_MESSAGE,
 	GET_USER,
+	GET_MESSAGES,
+	MESSAGE_ERROR,
 	GET_USERS,
 	SET_LOADING,
-	UPDATE_USER,
 	USER_ERROR,
+	UPDATE_USER,
 } from '../types';
 
 export default (state, action) => {
@@ -17,6 +20,29 @@ export default (state, action) => {
 			return {
 				...state,
 				user: action.payload,
+				loading: false,
+			};
+		case GET_MESSAGES:
+			return {
+				...state,
+				messages: action.payload,
+				loading: false,
+			};
+		case ADD_MESSAGE:
+			const msgs =
+				state.messages === null
+					? action.payload
+					: [action.payload, ...state.messages];
+			return {
+				...state,
+				messages: msgs,
+				loading: false,
+			};
+
+		case MESSAGE_ERROR:
+			return {
+				...state,
+				error: action.payload,
 				loading: false,
 			};
 		case GET_USER:
