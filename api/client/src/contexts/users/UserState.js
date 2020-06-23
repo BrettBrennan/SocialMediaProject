@@ -10,6 +10,7 @@ import {
 	MESSAGE_ERROR,
 	GET_USERS,
 	SET_LOADING,
+	LOAD,
 	USER_ERROR,
 	UPDATE_USER,
 } from '../types';
@@ -88,8 +89,21 @@ const UserState = (props) => {
 			});
 		}
 	};
+	const getConversations = async () => {
+		try {
+			const res = await axios.get('/api/messages/conversations/');
+			dispatch({
+				type: LOAD,
+			});
+			return res.data;
+		} catch (err) {
+			dispatch({
+				type: MESSAGE_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	const getUnreadMessages = async (user_id) => {
-		console.log('Getting unread messages');
 		try {
 			const res = await axios.get('/api/messages/unread/' + user_id);
 			return res.data;
@@ -104,11 +118,12 @@ const UserState = (props) => {
 	// ? user_id is OTHER user, not the logged in user.
 	const getMessages = async (user_id) => {
 		try {
-			const res = await axios.get('/api/messages/' + user_id);
+			const res = await axios.get('/api/messages/user/' + user_id);
 			dispatch({
 				type: GET_MESSAGES,
 				payload: res.data,
 			});
+			return res.data;
 		} catch (err) {
 			dispatch({
 				type: MESSAGE_ERROR,
@@ -208,6 +223,7 @@ const UserState = (props) => {
 				messages: state.messages,
 				error: state.error,
 				loading: state.loading,
+				getConversations,
 				getMessages,
 				getUnreadMessages,
 				sendMessage,

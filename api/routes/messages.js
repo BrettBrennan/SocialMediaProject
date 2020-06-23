@@ -7,9 +7,10 @@ const auth = require('../middleware/auth');
 // ?@desc Get a message by user id
 // ?@access Public or Private depending on messageer's preference
 
-router.get('/:id', auth, messages.getMessages);
-
+router.get('/conversations', auth, messages.getConversations);
+router.get('/user/:id', auth, messages.getUserMessages);
 router.get('/unread/:id', auth, messages.getUnreadMessages);
+router.get('/', auth, messages.getUserMessages);
 // ?@route POST api/messages
 // ?@desc Create a message
 // ?@access Private

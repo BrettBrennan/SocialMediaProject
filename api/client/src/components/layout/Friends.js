@@ -24,12 +24,12 @@ const Friends = () => {
 	}, []);
 
 	const loadFriends = async (user) => {
-		if (user === null) {
+		if (!user) {
 			console.error("User was null, couldn't load friends.");
 			return null;
 		}
 		if (friendsList && friendsList.length > 0) return null;
-		if (user !== null && user.friends !== null) {
+		if (user && user.friends !== null) {
 			for (let friend in user.friends) {
 				let name = await userContext.getUserName(friend);
 

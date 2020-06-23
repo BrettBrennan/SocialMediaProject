@@ -14,7 +14,7 @@ const Feed = () => {
 	const [feedList, setFeedList] = useState([]);
 	const [feedLoaded, setFeedLoaded] = useState(false);
 	const loadFeed = (user) => {
-		if (user === null) {
+		if (!user) {
 			console.error("User was null, couldn't load feed.");
 			return null;
 		}

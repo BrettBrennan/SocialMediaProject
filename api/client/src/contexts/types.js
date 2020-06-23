@@ -37,6 +37,7 @@ export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const CLEAR_COMMENTS = 'CLEAR_COMMENTS';
 //? USERS
+export const LOAD = 'LOAD';
 export const SET_LOADING = 'SET_LOADING';
 export const GET_USER = 'GET_USER';
 export const GET_USERS = 'GET_USERS';

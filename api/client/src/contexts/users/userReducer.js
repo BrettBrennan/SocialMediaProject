@@ -1,4 +1,5 @@
 import {
+	LOAD,
 	ADD_MESSAGE,
 	GET_USER,
 	GET_MESSAGES,
@@ -15,6 +16,11 @@ export default (state, action) => {
 			return {
 				...state,
 				loading: true,
+			};
+		case LOAD:
+			return {
+				...state,
+				loading: false,
 			};
 		case UPDATE_USER:
 			return {
