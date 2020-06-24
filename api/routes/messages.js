@@ -17,6 +17,8 @@ router.get('/', auth, messages.getUserMessages);
 
 router.post('/', auth, messages.create);
 
+router.put('/read/:id', auth, messages.setMessagesAsRead);
+
 // ?@route DELETE api/messages
 // ?@desc Delete all messages
 // ?@access Private

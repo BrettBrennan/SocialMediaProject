@@ -17,7 +17,12 @@ const Messages = () => {
 	const [conversations, setConversations] = useState(null);
 	const { isAuthenticated, user } = authContext;
 	const { setAlert } = alertContext;
-	const { getMessages, getConversations, sendMessage } = userContext;
+	const {
+		getMessages,
+		getConversations,
+		sendMessage,
+		setMessagesAsRead,
+	} = userContext;
 	const [messageInput, setMessageInput] = useState('');
 	const [loadingMessages, setLoadingMessages] = useState(false);
 	const loadMessages = (id) => {
@@ -37,6 +42,7 @@ const Messages = () => {
 				_messages = [..._messages, newMessage];
 			}
 			setMessages(_messages);
+			setMessagesAsRead(id);
 			setLoadingMessages(false);
 		});
 	};
@@ -55,10 +61,8 @@ const Messages = () => {
 		let mounted = true;
 
 		if (mounted) {
-			// if (isAuthenticated && user) loadMessages(user.id);
 			if (!isAuthenticated || !user)
 				authContext.loadUser().then(() => {
-					// loadMessages();
 					loadConversations();
 				});
 			else loadConversations();

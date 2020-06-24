@@ -25,6 +25,22 @@ const UserState = (props) => {
 	};
 	const [state, dispatch] = useReducer(userReducer, initialState);
 	const setLoading = () => dispatch({ type: SET_LOADING });
+	const setMessagesAsRead = async (id) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const res = await axios.put(`/api/messages/read/${id}`, config);
+			return res.data;
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	const sendMessage = async (id, message) => {
 		const config = {
 			headers: {
@@ -226,6 +242,7 @@ const UserState = (props) => {
 				getConversations,
 				getMessages,
 				getUnreadMessages,
+				setMessagesAsRead,
 				sendMessage,
 				getUserName,
 				getUser,

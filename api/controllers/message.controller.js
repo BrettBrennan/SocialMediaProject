@@ -88,6 +88,36 @@ exports.getConversations = async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 };
+exports.setMessagesAsRead = async (req, res) => {
+	try {
+		if (
+			req.user === null ||
+			req.user.id === '' ||
+			req.params.id === null ||
+			req.params.id === ''
+		)
+			return res
+				.status(400)
+				.json({ msg: 'User cannot be null or empty.' });
+
+		let query = await Messages.update(
+			{
+				read: true,
+			},
+			{
+				where: {
+					receiver: req.user.id,
+					sender: req.params.id,
+				},
+			}
+		);
+		if (query) return res.status(200).json(query);
+		return res.status(400).json({ msg: "Messages couldn't be retrieved." });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+};
 exports.getUnreadMessages = async (req, res) => {
 	try {
 		if (req.params.id === null || req.params.id === '')
@@ -99,7 +129,7 @@ exports.getUnreadMessages = async (req, res) => {
 			order: [['createdAt', 'DESC']],
 			where: {
 				receiver: req.params.id,
-				read: false,
+				read: false || 0,
 			},
 		});
 		if (query) return res.status(200).json(query);
