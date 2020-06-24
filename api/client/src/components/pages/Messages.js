@@ -7,7 +7,7 @@ import NewLineToBr from '../Formatters';
 import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import Profile_Default from '../pages/profile_default.svg';
-const Messages = () => {
+const Messages = (props) => {
 	const authContext = useContext(AuthContext);
 	const userContext = useContext(UserContext);
 	const alertContext = useContext(AlertContext);
@@ -59,7 +59,9 @@ const Messages = () => {
 	};
 	useEffect(() => {
 		let mounted = true;
-
+		if (!isAuthenticated) {
+			props.history.push('/');
+		}
 		if (mounted) {
 			if (!isAuthenticated || !user)
 				authContext.loadUser().then(() => {

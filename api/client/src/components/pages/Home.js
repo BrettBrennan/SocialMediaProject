@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../../contexts/auth/authContext';
 import Feed from '../layout/Feed';
 import Friends from '../layout/Friends';
-const Home = () => {
+const Home = (props) => {
+	const authContext = useContext(AuthContext);
+
+	if (!authContext.isAuthenticated) props.history.push('/login');
 	return (
 		<div className='Home-Page'>
 			<div className='Feed'>
