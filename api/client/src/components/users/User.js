@@ -208,7 +208,6 @@ const User = ({ match }) => {
 					style={{ width: '250px', borderRadius: '5px' }}
 				/>
 				<h1>{userContext.user.name}</h1>
-				<h4>{userContext.user.email}</h4>
 				{userContext.user.website !== null &&
 					userContext.user.website !== '' && (
 						<h4>
