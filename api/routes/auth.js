@@ -25,6 +25,7 @@ router.get('/', auth, async (req, res) => {
 				'bio',
 				'friend_requests',
 				'friends',
+				'blocked',
 				'Subscribed_Sections',
 				'createdAt',
 				'updatedAt',

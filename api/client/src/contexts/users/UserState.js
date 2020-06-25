@@ -167,6 +167,70 @@ const UserState = (props) => {
 			});
 		}
 	};
+	const blockUser = async (other_id, id) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const gUser = await axios.get('/api/user/' + id);
+
+			if (gUser) {
+				let bList = null;
+				if (gUser.data.blocked !== null) bList = gUser.data.blocked;
+
+				bList = { ...bList, [other_id]: 1 };
+
+				const Payload = { type: 'blocked', payload: bList };
+				const res = await axios.put(`/api/user/${id}`, Payload, config);
+				dispatch({
+					type: UPDATE_USER,
+					payload: res.data,
+				});
+			}
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
+	const unBlockUser = async (other_id, id) => {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		};
+		try {
+			const gUser = await axios.get('/api/user/' + other_id);
+
+			if (gUser) {
+				let bList = null;
+				bList = gUser.data.blocked;
+
+				if (bList) if (bList[id]) delete bList[id];
+
+				if (JSON.stringify(bList) === '{}') bList = null;
+
+				const Payload = { type: 'blocked', payload: bList };
+				const res = await axios.put(
+					`/api/user/${other_id}`,
+					Payload,
+					config
+				);
+				dispatch({
+					type: UPDATE_USER,
+					payload: res.data,
+				});
+			}
+		} catch (err) {
+			dispatch({
+				type: USER_ERROR,
+				payload: err.response.msg,
+			});
+		}
+	};
 	const removeFriend = async (other_id, id) => {
 		const config = {
 			headers: {
@@ -251,6 +315,8 @@ const UserState = (props) => {
 				updateUser,
 				removeFriend,
 				acceptFriendRequest,
+				blockUser,
+				unBlockUser,
 			}}
 		>
 			{props.children}

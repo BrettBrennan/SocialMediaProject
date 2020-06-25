@@ -18,6 +18,7 @@ const User = ({ match }) => {
 	const [isUserProfile, setIsUserProfile] = useState(false);
 	const [showMessageForm, setShowMessageForm] = useState(false);
 	const [message, setMessage] = useState('');
+	const [blockStatus, setBlockStatus] = useState(false);
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
@@ -31,6 +32,14 @@ const User = ({ match }) => {
 				});
 				if (authContext.user !== null) {
 					setIsUserProfile(authContext.user.id === match.params.id);
+					if (authContext.user.blocked) {
+						if (
+							authContext.user.blocked[match.params.id] ===
+								true ||
+							1
+						)
+							setBlockStatus(true);
+					}
 				}
 			}
 		}
@@ -64,7 +73,30 @@ const User = ({ match }) => {
 			</div>
 		);
 	}
-
+	const blockUser = () => {
+		if (!authContext.user || !userContext.user) return;
+		if (blockStatus) {
+			userContext
+				.unBlockUser(userContext.user.id, authContext.user.id)
+				.then(() => {
+					if (authContext.user.blocked)
+						setBlockStatus(
+							authContext.user.blocked[match.params.id] ===
+								true || 1
+						);
+				});
+		} else {
+			userContext
+				.blockUser(userContext.user.id, authContext.user.id)
+				.then(() => {
+					if (authContext.user.blocked)
+						setBlockStatus(
+							authContext.user.blocked[match.params.id] ===
+								true || 1
+						);
+				});
+		}
+	};
 	const removeFriend = () => {
 		if (authContext.user === null) {
 			authContext.loadUser().then(() => {
@@ -132,6 +164,23 @@ const User = ({ match }) => {
 			});
 		}
 	};
+	const getBlockButton = () => {
+		return (
+			<button
+				className='btn btn-blok'
+				onClick={() => {
+					if (
+						window.confirm(
+							'Are you sure you want to block this user?'
+						)
+					)
+						blockUser();
+				}}
+			>
+				{blockStatus === true ? 'Unblock' : 'Block'}
+			</button>
+		);
+	};
 	const getFriendButtons = () => {
 		let isFriends = false;
 		let requestPending = false;
@@ -166,7 +215,7 @@ const User = ({ match }) => {
 					>
 						Remove Friend
 					</button>
-					<button className='btn btn-blok'>Block</button>
+					{getBlockButton()}
 					<br />
 					<button
 						className='btn btn-message'
@@ -181,7 +230,7 @@ const User = ({ match }) => {
 			return (
 				<div className='Friend-Buttons'>
 					<button className='btn btn-pending'>Request Sent</button>
-					<button className='btn btn-blok'>Block</button>
+					{getBlockButton()}
 				</div>
 			);
 		}
@@ -190,7 +239,7 @@ const User = ({ match }) => {
 				<button className='btn btn-add' onClick={addFriend}>
 					Add Friend
 				</button>
-				<button className='btn btn-blok'>Block</button>
+				{getBlockButton()}
 			</Fragment>
 		);
 	};

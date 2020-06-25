@@ -50,6 +50,10 @@ module.exports = (sequelize, Sequelize) => {
 			type: Sequelize.JSON,
 			allowNull: true,
 		},
+		blocked: {
+			type: Sequelize.JSON,
+			allowNull: true,
+		},
 		friend_requests: {
 			type: Sequelize.JSON,
 			allowNull: true,
