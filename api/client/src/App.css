@@ -345,6 +345,16 @@ img {
 	transition: all 0.2s ease;
 }
 
+.btn-message-blocked {
+	cursor: not-allowed;
+	width: 100%;
+	color: #333;
+	background-color: rgb(244, 244, 244);
+	height: 2.2em;
+	margin: 5px;
+	transition: all 0.2s ease;
+}
+
 .btn-pending:hover {
 	opacity: 1;
 }

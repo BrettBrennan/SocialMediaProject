@@ -33,19 +33,16 @@ const User = ({ match }) => {
 				if (authContext.user !== null) {
 					setIsUserProfile(authContext.user.id === match.params.id);
 					if (authContext.user.blocked) {
-						if (
-							authContext.user.blocked[match.params.id] ===
-								true ||
-							1
-						)
-							setBlockStatus(true);
+						setBlockStatus(
+							authContext.user.blocked[match.params.id] === 1
+						);
 					}
 				}
 			}
 		}
 		return () => (mounted = false);
 		// eslint-disable-next-line
-	}, []);
+	}, [authContext.user]);
 	const onSubmit = (e) => {
 		e.preventDefault();
 		sendMessage(match.params.id, message);
@@ -79,6 +76,7 @@ const User = ({ match }) => {
 			userContext
 				.unBlockUser(userContext.user.id, authContext.user.id)
 				.then(() => {
+					setAlert('User Un-Blocked!', 'success');
 					if (authContext.user.blocked)
 						setBlockStatus(
 							authContext.user.blocked[match.params.id] ===
@@ -89,6 +87,8 @@ const User = ({ match }) => {
 			userContext
 				.blockUser(userContext.user.id, authContext.user.id)
 				.then(() => {
+					setAlert('User Blocked!', 'success');
+
 					if (authContext.user.blocked)
 						setBlockStatus(
 							authContext.user.blocked[match.params.id] ===
@@ -165,19 +165,51 @@ const User = ({ match }) => {
 		}
 	};
 	const getBlockButton = () => {
+		let blockText = blockStatus === true ? 'un-block' : 'block';
 		return (
 			<button
 				className='btn btn-blok'
 				onClick={() => {
 					if (
 						window.confirm(
-							'Are you sure you want to block this user?'
+							`Are you sure you want to ${blockText} this user?`
 						)
 					)
 						blockUser();
 				}}
 			>
 				{blockStatus === true ? 'Unblock' : 'Block'}
+			</button>
+		);
+	};
+	const getMessageButton = () => {
+		if (userContext.user && authContext.user) {
+			if (userContext.user.blocked) {
+				if (userContext.user.blocked[authContext.user.id] === 1) {
+					return (
+						<button className='btn btn-message-blocked'>
+							You cannot message this user.
+						</button>
+					);
+				}
+			}
+			if (authContext.user.blocked) {
+				if (authContext.user.blocked[match.params.id] === 1) {
+					return (
+						<button className='btn btn-message-blocked'>
+							User is blocked.
+						</button>
+					);
+				}
+			}
+		}
+
+		return (
+			<button
+				className='btn btn-message'
+				onClick={() => setShowMessageForm(true)}
+			>
+				Send Message
 			</button>
 		);
 	};
@@ -217,12 +249,7 @@ const User = ({ match }) => {
 					</button>
 					{getBlockButton()}
 					<br />
-					<button
-						className='btn btn-message'
-						onClick={() => setShowMessageForm(true)}
-					>
-						Send Message
-					</button>
+					{getMessageButton()}
 				</div>
 			);
 		}

@@ -76,7 +76,7 @@ const UserState = (props) => {
 	const getUser = async (id) => {
 		try {
 			const res = await axios.get('/api/user/' + id);
-			//return res.data;
+
 			dispatch({
 				type: GET_USER,
 				payload: res.data,
@@ -184,10 +184,9 @@ const UserState = (props) => {
 
 				const Payload = { type: 'blocked', payload: bList };
 				const res = await axios.put(`/api/user/${id}`, Payload, config);
-				dispatch({
-					type: UPDATE_USER,
-					payload: res.data,
-				});
+				await removeFriend(other_id, id);
+				await removeFriend(id, other_id);
+				return res.data;
 			}
 		} catch (err) {
 			dispatch({
@@ -203,26 +202,19 @@ const UserState = (props) => {
 			},
 		};
 		try {
-			const gUser = await axios.get('/api/user/' + other_id);
+			const gUser = await axios.get('/api/user/' + id);
 
 			if (gUser) {
 				let bList = null;
 				bList = gUser.data.blocked;
 
-				if (bList) if (bList[id]) delete bList[id];
+				if (bList) if (bList[other_id]) delete bList[other_id];
 
 				if (JSON.stringify(bList) === '{}') bList = null;
 
 				const Payload = { type: 'blocked', payload: bList };
-				const res = await axios.put(
-					`/api/user/${other_id}`,
-					Payload,
-					config
-				);
-				dispatch({
-					type: UPDATE_USER,
-					payload: res.data,
-				});
+				const res = await axios.put(`/api/user/${id}`, Payload, config);
+				return res.data;
 			}
 		} catch (err) {
 			dispatch({
