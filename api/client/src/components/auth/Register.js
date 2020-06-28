@@ -78,9 +78,9 @@ const Register = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='name'
-						className={inputLabels.name && 'field-active'}
+						className={inputLabels.name ? 'field-active' : ''}
 					>
-						<i className='fas fa-user' /> Full Name
+						<i className='fas fa-user' /> Username
 					</label>
 					<input
 						type='text'
@@ -95,7 +95,7 @@ const Register = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='email'
-						className={inputLabels.email && 'field-active'}
+						className={inputLabels.email ? 'field-active' : ''}
 					>
 						<i className='fas fa-envelope' /> Email
 					</label>
@@ -112,7 +112,7 @@ const Register = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='password'
-						className={inputLabels.password && 'field-active'}
+						className={inputLabels.password ? 'field-active' : ''}
 					>
 						<i className='fas fa-key' /> Password
 					</label>
@@ -130,7 +130,7 @@ const Register = (props) => {
 				<div className='form-group'>
 					<label
 						htmlFor='password2'
-						className={inputLabels.password2 && 'field-active'}
+						className={inputLabels.password2 ? 'field-active' : ''}
 					>
 						<i className='fas fa-key' /> Confirm Password
 					</label>

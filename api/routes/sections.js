@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 
 router.get('/', sections.findAll);
 
-router.get('/:user_id', sections.findAllByUser);
+router.get('/:id', sections.findAllByUser);
 
 // ?@route POST api/sections
 // ?@desc Create a Section

@@ -11,10 +11,16 @@ const Navbar = ({ title, icon }) => {
 	const { updateUser, getUnreadMessages } = userContext;
 	const [showNots, setShowNots] = useState(false);
 	const [messages, setMessages] = useState(null);
-
+	const [showMenu, setShowMenu] = useState(true);
 	useEffect(() => {
 		let mounted = true;
 		if (mounted) {
+			window.addEventListener('resize', (e) => {
+				if (window.innerWidth <= 360) setShowMenu(false);
+				if (window.innerWidth > 360) setShowMenu(true);
+			});
+			if (window.innerWidth <= 360) setShowMenu(false);
+			if (window.innerWidth > 360) setShowMenu(true);
 			if (isAuthenticated && user) getMessages(user.id);
 			if (!isAuthenticated || !user)
 				authContext.loadUser().then((res_user) => {
@@ -46,6 +52,7 @@ const Navbar = ({ title, icon }) => {
 	};
 	const onLogout = () => {
 		logout();
+		window.location.href = '/login';
 	};
 
 	const authLinks = (
@@ -64,8 +71,7 @@ const Navbar = ({ title, icon }) => {
 			</li>
 			<li>
 				<a onClick={onLogout} href='#!'>
-					<i className='fas fa-sign-out-alt' />{' '}
-					<span className='hide-sm'>Logout</span>
+					<i className='fas fa-sign-out-alt' /> <span>Logout</span>
 				</a>
 			</li>
 		</Fragment>
@@ -174,18 +180,15 @@ const Navbar = ({ title, icon }) => {
 		}
 		return null;
 	};
-
-	return (
-		<div className='navbar bg-primary'>
-			<h1>
-				<i className={icon} /> {title}
-			</h1>
+	const getHeaderLinks = () => {
+		if (!showMenu) return null;
+		return (
 			<ul>
 				{isAuthenticated &&
 					user !== null &&
 					(showNots === true ? (
 						<li
-							className='Notifications'
+							className='Notifications font-white'
 							onClick={() => setShowNots(!showNots)}
 						>
 							<i className='fas fa-inbox' />
@@ -204,6 +207,18 @@ const Navbar = ({ title, icon }) => {
 					))}
 				{isAuthenticated ? authLinks : guestLinks}
 			</ul>
+		);
+	};
+	return (
+		<div className='navbar bg-primary'>
+			<h1>
+				<i className={icon} /> {title}
+				<i
+					className='fas fa-bars navbar-hamburger'
+					onClick={() => setShowMenu(!showMenu)}
+				/>
+			</h1>
+			{getHeaderLinks()}
 		</div>
 	);
 };

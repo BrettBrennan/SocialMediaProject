@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 export default function NewLineToBr({ children = '' }) {
-	return children.split('\n').reduce(function (arr, line) {
-		return arr.concat(line, <br />);
-	}, []);
+	return children.split('\n').map((text, index) => (
+		<Fragment key={`${text}-${index}`}>
+			{text}
+			<br />
+		</Fragment>
+	));
 }

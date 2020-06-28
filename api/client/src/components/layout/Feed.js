@@ -74,15 +74,21 @@ const Feed = () => {
 		if (feedList === null) return <li>No posts yet.</li>;
 		return feedList.map((post) => (
 			<li key={post.id}>
-				<Link to={'/posts/' + post.id}>
+				<Link to={'/posts/' + post.id} className='Feed-Post-Title'>
 					<strong>{post.title}</strong>
 				</Link>{' '}
 				- Posted By{' '}
-				<Link to={'/user/' + post.creator_id}>
+				<Link
+					to={'/user/' + post.creator_id}
+					className='Feed-Post-Creator'
+				>
 					<strong>{post.creator}</strong>
 				</Link>{' '}
 				in{' '}
-				<Link to={'/sections/' + post.section_id}>
+				<Link
+					to={'/sections/' + post.section_id}
+					className='Feed-Post-Section'
+				>
 					<strong>{post.section_name}</strong>
 				</Link>
 			</li>

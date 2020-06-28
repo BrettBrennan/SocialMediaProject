@@ -23,7 +23,7 @@ const Messages = (props) => {
 
 	return (
 		<div className='Messages-Container'>
-			<div>
+			<div className='Conversations'>
 				<Conversations
 					setSelectedConversation={(value) =>
 						setSelectedConversation(value)

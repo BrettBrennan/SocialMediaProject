@@ -179,8 +179,9 @@ const Section = ({ match }) => {
 		let newSub = {
 			[secID]: 1,
 		};
-		if (user !== null && newSubs === null) {
-			if (user.Subscribed_Sections !== null) {
+		console.log(newSub);
+		if (user && newSubs === null) {
+			if (user.Subscribed_Sections) {
 				newSub = user.Subscribed_Sections;
 				if (user.Subscribed_Sections[secID])
 					newSub[secID] =
@@ -200,7 +201,7 @@ const Section = ({ match }) => {
 		setNewSubs(newSub);
 		updateUser(user.id, {
 			type: 'Subscribed_Sections',
-			payload: newSubs,
+			payload: newSub,
 		});
 	};
 	return (
