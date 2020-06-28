@@ -8,12 +8,13 @@ Users can add/block other users and send messages and receive notifications when
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Simply visit the link provided to test this app out. You can use some features as a 'Guest' but you will need to register a new account to see all the features in action.
 
 ## Built With
 
 -   [React] - React JS library.
 -   [NodeJS] - Node JS for back-end custom API. Uses Express and some small node modules for utilities.
+-   [Sequelize] - For MySQL Database Querying.
 
 ## Authors
 
