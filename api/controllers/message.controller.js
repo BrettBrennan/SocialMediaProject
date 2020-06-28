@@ -129,7 +129,7 @@ exports.getUnreadMessages = async (req, res) => {
 			order: [['createdAt', 'DESC']],
 			where: {
 				receiver: req.params.id,
-				read: false || 0,
+				read: 0,
 			},
 		});
 		if (query) return res.status(200).json(query);

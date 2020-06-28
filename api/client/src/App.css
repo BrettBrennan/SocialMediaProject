@@ -639,6 +639,12 @@ table th {
 	font-weight: normal;
 }
 
+.Notifications-Item>a {
+	color: #764ba2 !important;
+	font-weight: bold;
+	font-size: 16px;
+}
+
 .Notifications-Accept {
 	color: rgb(69, 196, 69);
 	margin: 0px 10px 0px 10px;

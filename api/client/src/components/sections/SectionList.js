@@ -28,6 +28,7 @@ const SectionsList = ({ ownedByUser }) => {
 	} = sectionContext;
 	const { setAlert } = alertContext;
 	useEffect(() => {
+		console.log(ownedByUser);
 		let mounted = true;
 		if (ownedByUser === true) {
 			if (user !== null) {

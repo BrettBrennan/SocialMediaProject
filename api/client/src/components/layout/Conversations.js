@@ -11,11 +11,15 @@ const Conversations = ({ setSelectedConversation }) => {
 	const [conversations, setConversations] = useState(null);
 	const { isAuthenticated, user } = authContext;
 	const { getConversations } = userContext;
+	const [hasConversations, setHasConversations] = useState(false);
 	const loadConversations = () => {
-		getConversations().then(async (res) => {
-			setConversations(res);
-			setSelectedConvo(selectedConvo);
-			setSelectedConversation(res[0]);
+		getConversations().then((res) => {
+			if (res) {
+				setHasConversations(true);
+				setConversations(res);
+				setSelectedConvo(selectedConvo);
+				setSelectedConversation(res[0]);
+			}
 			//loadMessages(res[0].id);
 		});
 	};
@@ -39,6 +43,13 @@ const Conversations = ({ setSelectedConversation }) => {
 	}, []);
 
 	const renderConversations = () => {
+		if (!hasConversations || !conversations) {
+			return <li>No conversations yet.</li>;
+		}
+		if (conversations)
+			if (conversations.length === 0)
+				return <li>No conversations yet.</li>;
+
 		let returnValue = [];
 		if (conversations !== null) {
 			for (let key in conversations) {

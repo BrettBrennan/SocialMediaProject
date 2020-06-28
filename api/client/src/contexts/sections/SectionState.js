@@ -71,10 +71,7 @@ const SectionState = (props) => {
 		try {
 			const res = await axios.get('/api/sections/' + user_id);
 
-			dispatch({
-				type: GET_SECTIONS,
-				payload: res.data,
-			});
+			return res.data;
 		} catch (err) {
 			dispatch({
 				type: SECTION_ERROR,

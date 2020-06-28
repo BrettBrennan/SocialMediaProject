@@ -85,6 +85,7 @@ const Message = ({ selectedConversation }) => {
 		return returnValue;
 	};
 	const renderForm = () => {
+		if (!selectedConversation) return null;
 		return (
 			<form onSubmit={onSubmit} className='Message-Form'>
 				<input type='text' value={messageInput} onChange={onChange} />
@@ -105,6 +106,7 @@ const Message = ({ selectedConversation }) => {
 			</div>
 		);
 	};
+	if (!selectedConversation) return <Fragment>No messages.</Fragment>;
 	return (
 		<Fragment>
 			{renderCurrentConvoUser()}
